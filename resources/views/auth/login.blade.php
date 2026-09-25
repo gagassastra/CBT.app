@@ -26,8 +26,8 @@
                 </span>
             </x-input-label>
 
-            <div class="relative">
-                <x-text-input id="password" class="block mt-1.5 w-full bg-slate-50 border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-blue-500 rounded-lg px-4 py-2.5 transition-colors pr-10" x-bind:type="showPassword ? 'text' : 'password'" name="password" required autocomplete="current-password" placeholder="Masukkan Password Anda" />
+            <div class="relative mt-1.5">
+                <x-text-input id="password" class="block w-full bg-slate-50 border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-blue-500 rounded-lg px-4 py-2.5 transition-colors pr-10" x-bind:type="showPassword ? 'text' : 'password'" name="password" required autocomplete="current-password" placeholder="Masukkan Password Anda" />
                 <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
                     <!-- Icon when password is hidden (Eye outline) -->
                     <svg x-show="!showPassword" class="h-5 w-5" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
