@@ -13,6 +13,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('mapel', \App\Http\Controllers\MataPelajaranController::class);
     Route::resource('tahun_ajaran', \App\Http\Controllers\TahunAjaranController::class);
     Route::resource('pengguna', \App\Http\Controllers\UserController::class);
+    Route::resource('ujian', \App\Http\Controllers\UjianController::class);
+    Route::resource('ujian.soal', \App\Http\Controllers\SoalController::class);
     Route::get('/siswa/export', [\App\Http\Controllers\SiswaDataController::class, 'exportCsv'])->name('siswa.export');
     Route::post('/siswa/import', [\App\Http\Controllers\SiswaDataController::class, 'importCsv'])->name('siswa.import');
     Route::get('/siswa/semua-kartu', [\App\Http\Controllers\SiswaDataController::class, 'cetakSemuaKartu'])->name('siswa.kartu_semua');
