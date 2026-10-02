@@ -71,6 +71,54 @@
                 </div>
             </div>
 
+            <!-- Pembuat Soal -->
+            @php
+                $dataGuru = \App\Models\User::where('role', 'guru')->get()->map(function($guru) {
+                    $guru->total_ujian = \App\Models\Ujian::where('guru_id', $guru->id)->count();
+                    $guru->total_soal = \App\Models\Soal::whereHas('ujian', function($q) use ($guru) {
+                        $q->where('guru_id', $guru->id);
+                    })->count();
+                    return $guru;
+                });
+            @endphp
+            <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
+                <h3 class="text-xl font-bold text-slate-800 mb-6">Status Pembuatan Soal oleh Guru</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 bg-slate-50 text-left text-xs font-medium text-slate-500 uppercase tracking-wider rounded-tl-xl">Nama Guru</th>
+                                <th class="px-6 py-3 bg-slate-50 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 bg-slate-50 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Total Ujian</th>
+                                <th class="px-6 py-3 bg-slate-50 text-center text-xs font-medium text-slate-500 uppercase tracking-wider rounded-tr-xl">Total Soal Dibuat</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-slate-200">
+                            @forelse($dataGuru as $guru)
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">{{ $guru->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{{ $guru->email }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 text-center">
+                                    <span class="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-md font-semibold">{{ $guru->total_ujian }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 text-center">
+                                    @if($guru->total_soal > 0)
+                                        <span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded-md font-semibold">{{ $guru->total_soal }} Soal</span>
+                                    @else
+                                        <span class="px-2 py-1 bg-rose-50 text-rose-700 rounded-md font-semibold">Belum Membuat</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 text-center">Tidak ada data guru.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </x-app-layout>
