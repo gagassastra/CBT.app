@@ -8,9 +8,15 @@ use App\Models\Kelas;
 
 class SiswaDataController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = User::with('kelas')->where('role', 'siswa')->get();
+        $query = User::with('kelas')->where('role', 'siswa');
+        
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        
+        $data = $query->get();
         return view('admin.siswa.index', compact('data'));
     }
 
