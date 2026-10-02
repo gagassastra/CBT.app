@@ -1,7 +1,7 @@
 <x-app-layout>
 <x-slot name="header"><h2 class="font-bold text-2xl text-slate-800 leading-tight tracking-tight">Panel Utama</h2></x-slot>
 <div class='max-w-7xl mx-auto py-6 bg-white p-6 rounded shadow'>
-<form action='{{ route('guru.ujian.update', $data->id) }}' method='POST'>
+<form action='{{ route(auth()->user()->role . '.ujian.update', $data->id) }}' method='POST'>
 @csrf @method('PUT')
 @if($errors->any())
 <div class='mb-4 p-4 bg-red-100 text-red-700 rounded-lg'>

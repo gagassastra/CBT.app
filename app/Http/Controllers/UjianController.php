@@ -8,7 +8,11 @@ use App\Models\TahunAjaran;
 
 class UjianController extends Controller {
     public function index() {
-        $data = Ujian::with(['mataPelajaran', 'kelas', 'tahunAjaran'])->where('guru_id', auth()->id())->get();
+        if (auth()->user()->role === 'admin') {
+            $data = Ujian::with(['mataPelajaran', 'kelas', 'tahunAjaran', 'guru'])->get();
+        } else {
+            $data = Ujian::with(['mataPelajaran', 'kelas', 'tahunAjaran'])->where('guru_id', auth()->id())->get();
+        }
         return view('guru.ujian.index', compact('data'));
     }
     public function create() {
@@ -29,7 +33,7 @@ class UjianController extends Controller {
         $data['waktu_selesai'] = date('Y-m-d H:i:s', strtotime($data['waktu_mulai'] . ' + ' . $data['durasi'] . ' minutes'));
         $data['guru_id'] = auth()->id();
         Ujian::create($data);
-        return redirect()->route('guru.ujian.index')->with('success', 'Ujian berhasil ditambahkan');
+        return redirect()->route(auth()->user()->role . '.ujian.index')->with('success', 'Ujian berhasil ditambahkan');
     }
     public function edit($id) {
         $data = Ujian::findOrFail($id);
@@ -49,11 +53,11 @@ class UjianController extends Controller {
         ]);
         $data['waktu_selesai'] = date('Y-m-d H:i:s', strtotime($data['waktu_mulai'] . ' + ' . $data['durasi'] . ' minutes'));
         Ujian::findOrFail($id)->update($data);
-        return redirect()->route('guru.ujian.index')->with('success', 'Ujian berhasil diperbarui');
+        return redirect()->route(auth()->user()->role . '.ujian.index')->with('success', 'Ujian berhasil diperbarui');
     }
     public function destroy($id) {
         Ujian::destroy($id);
-        return redirect()->route('guru.ujian.index');
+        return redirect()->route(auth()->user()->role . '.ujian.index');
     }
     public function show($id) {
         $ujian = Ujian::with('soals')->findOrFail($id);

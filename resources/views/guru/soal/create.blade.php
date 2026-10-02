@@ -1,7 +1,7 @@
 <x-app-layout>
 <x-slot name="header">
     <div class="flex items-center">
-        <a href="{{ route('guru.ujian.show', $ujian_id) }}" class="mr-4 text-slate-500 hover:text-blue-600 transition">
+        <a href="{{ route(auth()->user()->role . '.ujian.show', $ujian_id) }}" class="mr-4 text-slate-500 hover:text-blue-600 transition">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
         </a>
         <h2 class="font-bold text-2xl text-slate-800 leading-tight tracking-tight">Buat Soal Baru</h2>
@@ -31,7 +31,7 @@
                 </div>
             @endif
 
-            <form action='{{ route('guru.ujian.soal.store', $ujian_id) }}' method='POST' enctype='multipart/form-data'>
+            <form action='{{ route(auth()->user()->role . '.ujian.soal.store', $ujian_id) }}' method='POST' enctype='multipart/form-data'>
                 @csrf
                 
                 <div class='mb-6'>

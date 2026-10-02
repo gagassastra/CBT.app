@@ -13,7 +13,7 @@
                 <h1 class="text-3xl font-extrabold text-white tracking-tight">Daftar Ujian</h1>
                 <p class="text-blue-100 mt-1 text-sm">Kelola seluruh jadwal ujian beserta soal-soalnya di sini.</p>
             </div>
-            <a href="{{ route('guru.ujian.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition duration-200 ease-in-out flex items-center">
+            <a href="{{ route(auth()->user()->role . '.ujian.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition duration-200 ease-in-out flex items-center">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 Buat Ujian Baru
             </a>
@@ -39,6 +39,9 @@
                             <td class="px-6 py-4">
                                 <div class="font-bold text-gray-900 text-base">{{ $row->nama_ujian }}</div>
                                 <div class="text-xs text-gray-500 mt-1">TA: {{ $row->tahunAjaran->tahun_ajaran ?? '-' }}</div>
+                                @if(auth()->user()->role === 'admin')
+                                <div class="text-xs text-indigo-600 mt-1">Guru: <strong>{{ $row->guru->name ?? '-' }}</strong></div>
+                                @endif
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center text-gray-700">
@@ -65,13 +68,13 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
-                                <a href="{{ route('guru.ujian.show', $row->id) }}" class="inline-flex items-center bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-medium px-3 py-1.5 rounded-md text-xs transition">
+                                <a href="{{ route(auth()->user()->role . '.ujian.show', $row->id) }}" class="inline-flex items-center bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-medium px-3 py-1.5 rounded-md text-xs transition">
                                     Kelola Soal
                                 </a>
-                                <a href="{{ route('guru.ujian.edit', $row->id) }}" class="inline-flex items-center bg-yellow-50 text-yellow-700 hover:bg-yellow-100 font-medium px-3 py-1.5 rounded-md text-xs transition">
+                                <a href="{{ route(auth()->user()->role . '.ujian.edit', $row->id) }}" class="inline-flex items-center bg-yellow-50 text-yellow-700 hover:bg-yellow-100 font-medium px-3 py-1.5 rounded-md text-xs transition">
                                     Edit
                                 </a>
-                                <form action="{{ route('guru.ujian.destroy', $row->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ujian ini? Seluruh soal dan nilai terkait akan hilang!');">
+                                <form action="{{ route(auth()->user()->role . '.ujian.destroy', $row->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ujian ini? Seluruh soal dan nilai terkait akan hilang!');">
                                     @csrf 
                                     @method('DELETE')
                                     <button style="background-color: #ef4444; color: white;" class="inline-flex items-center hover:bg-red-600 font-bold px-3 py-1.5 rounded-md text-xs transition shadow-sm">

@@ -31,7 +31,7 @@ class SoalController extends Controller {
 
         $data['ujian_id'] = $ujian_id;
         Soal::create($data);
-        return redirect()->route('guru.ujian.show', $ujian_id)->with('success', 'Soal berhasil ditambahkan');
+        return redirect()->route(auth()->user()->role . '.ujian.show', $ujian_id)->with('success', 'Soal berhasil ditambahkan');
     }
     public function edit($ujian_id, $id) {
         $data = Soal::findOrFail($id);
@@ -77,10 +77,10 @@ class SoalController extends Controller {
         unset($data['delete_media']);
 
         $soal->update($data);
-        return redirect()->route('guru.ujian.show', $ujian_id)->with('success', 'Soal berhasil diperbarui');
+        return redirect()->route(auth()->user()->role . '.ujian.show', $ujian_id)->with('success', 'Soal berhasil diperbarui');
     }
     public function destroy($ujian_id, $id) {
         Soal::destroy($id);
-        return redirect()->route('guru.ujian.show', $ujian_id);
+        return redirect()->route(auth()->user()->role . '.ujian.show', $ujian_id);
     }
 }

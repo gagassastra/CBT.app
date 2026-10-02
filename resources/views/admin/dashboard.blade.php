@@ -68,6 +68,7 @@
                     <a href="{{ route('admin.pengguna.index') }}" class="w-full sm:w-auto text-center px-6 py-3 bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 rounded-xl font-semibold transition border border-slate-200">Kelola Pengguna</a>
                     <a href="{{ route('admin.kelas.index') }}" class="w-full sm:w-auto text-center px-6 py-3 bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 rounded-xl font-semibold transition border border-slate-200">Kelola Kelas</a>
                     <a href="{{ route('admin.mapel.index') }}" class="w-full sm:w-auto text-center px-6 py-3 bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 rounded-xl font-semibold transition border border-slate-200">Kelola Mapel</a>
+                    <a href="{{ route('admin.ujian.index') }}" class="w-full sm:w-auto text-center px-6 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 hover:text-indigo-800 rounded-xl font-semibold transition border border-indigo-200">Kelola Ujian & Soal</a>
                 </div>
             </div>
 
