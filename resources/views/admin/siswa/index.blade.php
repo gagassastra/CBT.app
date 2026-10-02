@@ -40,24 +40,23 @@
 
         <!-- Search Bar -->
         <div class="mb-6 bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-wrap gap-4 items-center justify-between">
-            <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-1 gap-2 min-w-[300px]">
+            <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-1 gap-2 min-w-[300px]" onsubmit="event.preventDefault();">
                 <div class="relative flex-1 max-w-md">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama siswa..." class="pl-10 w-full rounded-lg border-slate-200 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-sm">
+                    <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Ketik nama siswa untuk mencari..." class="pl-10 w-full rounded-lg border-slate-200 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-sm" oninput="searchSiswa(this.value)">
                 </div>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition shadow-sm text-sm">Cari</button>
                 @if(request('search'))
                     <a href="{{ route('admin.siswa.index') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-2 px-4 rounded-lg transition shadow-sm text-sm">Reset</a>
                 @endif
             </form>
-            <div class="text-sm text-slate-500 font-medium">
+            <div class="text-sm text-slate-500 font-medium" id="total-siswa">
                 Total: {{ $data->count() }} Siswa
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden" id="table-container">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-slate-600">
                     <thead class="bg-slate-50/50 text-slate-500 text-xs tracking-wider uppercase text-xs font-bold tracking-wider border-b border-slate-100/80">
@@ -109,6 +108,41 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let debounceTimer;
+        function searchSiswa(query) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                fetch('{{ route('admin.siswa.index') }}?search=' + encodeURIComponent(query))
+                    .then(res => res.text())
+                    .then(html => {
+                        let parser = new DOMParser();
+                        let doc = parser.parseFromString(html, 'text/html');
+                        document.querySelector('#table-container').innerHTML = doc.querySelector('#table-container').innerHTML;
+                        document.querySelector('#total-siswa').innerHTML = doc.querySelector('#total-siswa').innerHTML;
+                        
+                        // Update the URL without reloading the page
+                        let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?search=' + encodeURIComponent(query);
+                        if(query === '') {
+                            newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                        }
+                        window.history.pushState({path:newUrl}, '', newUrl);
+                    });
+            }, 300);
+        }
+        
+        // Put cursor at the end if there's already text (useful when returning back)
+        window.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('searchInput');
+            if(input && input.value) {
+                const val = input.value;
+                input.focus();
+                input.value = '';
+                input.value = val;
+            }
+        });
+    </script>
 </x-app-layout>
 
 
