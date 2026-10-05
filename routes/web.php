@@ -20,15 +20,20 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/siswa/semua-kartu', [\App\Http\Controllers\SiswaDataController::class, 'cetakSemuaKartu'])->name('siswa.kartu_semua');
     Route::get('/siswa/{id}/kartu', [\App\Http\Controllers\SiswaDataController::class, 'cetakKartu'])->name('siswa.kartu');
     Route::resource('siswa', \App\Http\Controllers\SiswaDataController::class);
+    Route::get('/laporan', [\App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/{id}', [\App\Http\Controllers\LaporanController::class, 'show'])->name('laporan.show');
+    Route::get('/laporan/{id}/pdf', [\App\Http\Controllers\LaporanController::class, 'cetakPdf'])->name('laporan.pdf');
+    Route::post('/laporan/reset/{peserta_id}', [\App\Http\Controllers\LaporanController::class, 'reset'])->name('laporan.reset');
 });
 
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
     Route::get('/dashboard', function () { return view('guru.dashboard'); })->name('dashboard');
     Route::resource('ujian', \App\Http\Controllers\UjianController::class);
     Route::resource('ujian.soal', \App\Http\Controllers\SoalController::class);
-    Route::get('/laporan', [\App\Http\Controllers\Guru\LaporanController::class, 'index'])->name('laporan.index');
-    Route::get('/laporan/{id}', [\App\Http\Controllers\Guru\LaporanController::class, 'show'])->name('laporan.show');
-    Route::get('/laporan/{id}/pdf', [\App\Http\Controllers\Guru\LaporanController::class, 'cetakPdf'])->name('laporan.pdf');
+    Route::get('/laporan', [\App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/{id}', [\App\Http\Controllers\LaporanController::class, 'show'])->name('laporan.show');
+    Route::get('/laporan/{id}/pdf', [\App\Http\Controllers\LaporanController::class, 'cetakPdf'])->name('laporan.pdf');
+    Route::post('/laporan/reset/{peserta_id}', [\App\Http\Controllers\LaporanController::class, 'reset'])->name('laporan.reset');
 });
 
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {

@@ -7,11 +7,14 @@
         
         <div class="mb-6 flex justify-between items-center flex-wrap gap-4">
             <div>
-                <a href="{{ route('guru.laporan.index') }}" class="text-slate-500 hover:text-blue-600 text-sm font-semibold mb-2 inline-block">&larr; Kembali ke Daftar</a>
+                <a href="{{ route(auth()->user()->role . '.laporan.index') }}" class="text-slate-500 hover:text-blue-600 text-sm font-semibold mb-2 inline-block">&larr; Kembali ke Daftar</a>
                 <h1 class="text-3xl font-extrabold text-white">{{ $ujian->nama_ujian }}</h1>
                 <p class="text-blue-100 mt-1">Kelas: {{ $ujian->kelas->nama_kelas ?? '-' }} | Mapel: {{ $ujian->mataPelajaran->nama_pelajaran ?? '-' }}</p>
+                @if(session('success'))
+                    <p class="text-green-300 font-bold text-sm mt-2">{{ session('success') }}</p>
+                @endif
             </div>
-            <a href="{{ route('guru.laporan.pdf', $ujian->id) }}" target="_blank" class="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold shadow-lg shadow-red-500/30 transition">
+            <a href="{{ route(auth()->user()->role . '.laporan.pdf', $ujian->id) }}" target="_blank" class="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold shadow-lg shadow-red-500/30 transition">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 Cetak PDF
             </a>
@@ -27,7 +30,10 @@
                             <th class="px-6 py-4 font-semibold">Benar</th>
                             <th class="px-6 py-4 font-semibold">Salah</th>
                             <th class="px-6 py-4 font-semibold">Kosong</th>
-                            <th class="px-6 py-4 font-semibold rounded-tr-xl">Nilai Akhir</th>
+                            <th class="px-6 py-4 font-semibold">Nilai Akhir</th>
+                            @if(auth()->user()->role === 'admin')
+                            <th class="px-6 py-4 font-semibold rounded-tr-xl text-center">Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -40,6 +46,16 @@
                                 <td class="px-6 py-4 text-red-600 font-bold">{{ $peserta->hasilUjian->jumlah_salah }}</td>
                                 <td class="px-6 py-4 text-slate-400 font-bold">{{ $peserta->hasilUjian->tidak_dijawab }}</td>
                                 <td class="px-6 py-4 text-blue-600 font-black text-lg">{{ number_format($peserta->hasilUjian->nilai_akhir, 0) }}</td>
+                                @if(auth()->user()->role === 'admin')
+                                <td class="px-6 py-4 text-center">
+                                    <form action="{{ route('admin.laporan.reset', $peserta->id) }}" method="POST" onsubmit="return confirm('Yakin ingin mereset ujian siswa ini? Nilai dan jawabannya akan dihapus.');">
+                                        @csrf
+                                        <button type="submit" class="px-3 py-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200 font-bold rounded-lg text-xs transition shadow-sm">
+                                            Reset Ujian
+                                        </button>
+                                    </form>
+                                </td>
+                                @endif
                             </tr>
                             @endif
                         @empty

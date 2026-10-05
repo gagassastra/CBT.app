@@ -27,6 +27,7 @@
                         <x-nav-link :href="route('admin.tahun_ajaran.index')" :active="request()->routeIs('admin.tahun_ajaran.*')">Tahun Ajaran</x-nav-link>
                         <x-nav-link :href="route('admin.siswa.index')" :active="request()->routeIs('admin.siswa.*')">Data Siswa</x-nav-link>
                         <x-nav-link :href="route('admin.pengguna.index')" :active="request()->routeIs('admin.pengguna.*')">Data Pengguna</x-nav-link>
+                        <x-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.*')">Laporan Hasil</x-nav-link>
                     @endif
                     <!-- Guru Links -->
                     @if(Auth::user()->role === 'guru')
@@ -110,6 +111,7 @@
                 <x-responsive-nav-link :href="route('admin.tahun_ajaran.index')" :active="request()->routeIs('admin.tahun_ajaran.*')">Tahun Ajaran</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.siswa.index')" :active="request()->routeIs('admin.siswa.*')">Data Siswa</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.pengguna.index')" :active="request()->routeIs('admin.pengguna.*')">Data Pengguna</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.*')">Laporan Hasil</x-responsive-nav-link>
             @endif
             
             @if(Auth::user()->role === 'guru')
