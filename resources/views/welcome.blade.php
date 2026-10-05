@@ -14,6 +14,14 @@
                 background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
                 background-size: 24px 24px;
             }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-15px); }
+                100% { transform: translateY(0px); }
+            }
+            .animate-float {
+                animation: float 4s ease-in-out infinite;
+            }
         </style>
     </head>
     <body class="antialiased text-slate-800 bg-slate-50 selection:bg-blue-200 selection:text-blue-900 flex flex-col min-h-screen">
@@ -91,10 +99,10 @@
                     </div>
                     
                     <!-- Image Content -->
-                    <div class="relative w-full max-w-sm mx-auto lg:max-w-md">
-                        <div class="absolute inset-0 bg-blue-200/50 rounded-full blur-3xl opacity-70"></div>
-                        <div class="relative bg-white rounded-full shadow-2xl p-8 sm:p-12 border border-slate-100 flex items-center justify-center aspect-square">
-                            <img src="{{ asset('image/logo.jpg') }}" alt="Logo Besar" class="w-full h-full object-contain transform hover:scale-105 transition-transform duration-500">
+                    <div class="relative w-full max-w-[14rem] sm:max-w-[18rem] lg:max-w-[22rem] mx-auto animate-float">
+                        <div class="absolute inset-0 bg-blue-300 rounded-full blur-3xl opacity-50 animate-pulse"></div>
+                        <div class="relative bg-white rounded-full shadow-2xl border-[6px] sm:border-[8px] border-white overflow-hidden flex items-center justify-center aspect-square">
+                            <img src="{{ asset('image/logo.jpg') }}" alt="Logo Besar" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-700">
                         </div>
                     </div>
 
