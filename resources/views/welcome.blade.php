@@ -111,9 +111,9 @@
                     </div>
                     
                     <!-- Image Content -->
-                    <div class="relative w-full max-w-[12rem] sm:max-w-[15rem] lg:max-w-[18rem] mx-auto animate-float">
+                    <div class="relative w-full max-w-[9rem] sm:max-w-[12rem] lg:max-w-[14rem] mx-auto animate-float">
                         <div class="absolute inset-0 bg-blue-400 rounded-full blur-3xl opacity-40 animate-pulse"></div>
-                        <div class="relative bg-white rounded-full shadow-2xl border-[5px] sm:border-[8px] border-white overflow-hidden flex items-center justify-center aspect-square">
+                        <div class="relative bg-white rounded-full shadow-2xl border-[4px] sm:border-[6px] border-white overflow-hidden flex items-center justify-center aspect-square">
                             <img src="{{ asset('image/logo.jpg') }}" alt="Logo Besar" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-700">
                         </div>
                     </div>
