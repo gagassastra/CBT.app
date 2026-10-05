@@ -3,54 +3,48 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Sistem Ujian - PKBM AL-QUDWAH</title>
+        <title>Portal Ujian CBT - PKBM AL-QUDWAH</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
         <style>
-            .mesh-bg {
-                background-color: #f8fafc;
-                background-image: 
-                    radial-gradient(at 0% 0%, hsla(217,100%,70%,0.15) 0px, transparent 50%),
-                    radial-gradient(at 100% 0%, hsla(250,100%,75%,0.15) 0px, transparent 50%),
-                    radial-gradient(at 100% 100%, hsla(217,100%,70%,0.15) 0px, transparent 50%),
-                    radial-gradient(at 0% 100%, hsla(250,100%,75%,0.15) 0px, transparent 50%);
+            body { font-family: 'Plus Jakarta Sans', sans-serif; }
+            .pattern-bg {
+                background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+                background-size: 24px 24px;
             }
-            .grid-bg {
-                background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
-                background-size: 40px 40px;
-            }
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-                100% { transform: translateY(0px); }
-            }
-            .animate-float {
-                animation: float 4s ease-in-out infinite;
+            .hero-gradient {
+                background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
             }
         </style>
     </head>
-    <body class="font-sans antialiased text-gray-900 mesh-bg grid-bg min-h-screen flex flex-col relative selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden">
+    <body class="antialiased text-slate-800 bg-slate-50 selection:bg-blue-200 selection:text-blue-900 flex flex-col min-h-screen overflow-x-hidden">
         
         <!-- Navbar -->
-        <nav class="fixed top-0 w-full z-50 backdrop-blur-xl bg-white/60 border-b border-white/40 shadow-sm transition-all duration-300">
+        <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
-                    <div class="flex items-center space-x-3 group cursor-pointer">
-                        <div class="bg-white p-1 rounded-xl shadow-sm border border-gray-100 group-hover:shadow-md transition">
-                            <img src="{{ asset('image/logo.jpg') }}" alt="Logo PKBM AL-QUDWAH" class="h-9 w-9 object-contain rounded-lg">
-                        </div>
-                        <span class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800 tracking-tighter whitespace-nowrap">PKBM AL-QUDWAH</span>
+                    <div class="flex items-center space-x-3 cursor-pointer">
+                        <img src="{{ asset('image/logo.jpg') }}" alt="Logo PKBM AL-QUDWAH" class="h-10 w-10 object-contain rounded-lg border border-slate-100 shadow-sm">
+                        <span class="text-xl font-extrabold text-slate-900 tracking-tight">PKBM AL-QUDWAH</span>
                     </div>
                     
+                    <div class="hidden md:flex space-x-8 items-center">
+                        <a href="#tentang-cbt" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition">Apa itu CBT?</a>
+                        <a href="#tata-cara" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition">Tata Cara Ujian</a>
+                    </div>
+
                     <div class="flex items-center">
                         @if (Route::has('login'))
                             @auth
-                                <a href="{{ route('dashboard') }}" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition flex items-center">
+                                <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 px-5 py-2.5 rounded-full font-bold text-sm transition">
                                     Masuk Dashboard
-                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center bg-gray-900 hover:bg-blue-600 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-colors shadow-md hover:shadow-lg hover:shadow-blue-500/30">
-                                    Login
+                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full font-bold text-sm transition shadow-md shadow-blue-500/20">
+                                    Login Sistem
                                 </a>
                             @endauth
                         @endif
@@ -60,106 +54,163 @@
         </nav>
 
         <!-- Hero Section -->
-        <main class="flex-grow flex items-center justify-center relative z-10 px-4 sm:px-6 lg:px-8 pt-32 pb-20">
-            <div class="max-w-5xl mx-auto text-center flex flex-col items-center">
-                
-                <!-- Animated App Icon (Logo) -->
-                <div class="relative mb-10 animate-float">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 blur-2xl opacity-40 rounded-3xl"></div>
-                    <img src="{{ asset('image/logo.jpg') }}" alt="Logo PKBM" class="relative w-32 md:w-40 object-contain bg-white rounded-3xl shadow-2xl p-4 border border-white/50">
+        <main class="hero-gradient relative pt-32 pb-24 md:pt-40 md:pb-32 border-b border-slate-200">
+            <div class="absolute inset-0 pattern-bg opacity-50"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm font-bold text-blue-700 mb-6">
+                            <span class="w-2 h-2 rounded-full bg-blue-600 mr-2 animate-pulse"></span>
+                            Portal Ujian Terintegrasi
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-6 tracking-tight">
+                            Evaluasi Belajar <br class="hidden lg:block" />
+                            <span class="text-blue-600">Lebih Terstruktur</span>
+                        </h1>
+                        <p class="text-lg text-slate-600 mb-8 max-w-xl leading-relaxed">
+                            Selamat datang di Portal Computer Based Test (CBT) PKBM AL-QUDWAH. Akses ujian sekolah Anda dengan sistem yang responsif, aman, dan dirancang khusus untuk kenyamanan evaluasi pembelajaran digital.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            @if (Route::has('login'))
+                                @auth
+                                    <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-3.5 rounded-full font-bold text-base transition-all hover:bg-blue-700 shadow-lg shadow-blue-600/30">
+                                        Buka Dashboard
+                                    </a>
+                                @else
+                                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-3.5 rounded-full font-bold text-base transition-all hover:bg-blue-700 shadow-lg shadow-blue-600/30">
+                                        Login Sekarang
+                                    </a>
+                                @endauth
+                            @endif
+                            <a href="#tentang-cbt" class="inline-flex items-center justify-center bg-white text-slate-700 border border-slate-300 px-8 py-3.5 rounded-full font-bold text-base transition-all hover:bg-slate-50">
+                                Pelajari Sistem
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="hidden lg:block relative">
+                        <!-- Placeholder/Illustration container -->
+                        <div class="relative w-full aspect-square max-w-md mx-auto">
+                            <div class="absolute inset-0 bg-blue-100 rounded-full blur-3xl opacity-50 animate-pulse"></div>
+                            <img src="{{ asset('image/logo.jpg') }}" alt="Logo Besar" class="relative z-10 w-full h-full object-contain drop-shadow-2xl p-12">
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Status Badge -->
-                <div class="inline-flex items-center px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm text-sm font-bold text-gray-700 mb-8 backdrop-blur-md">
-                    <span class="relative flex h-2.5 w-2.5 mr-2.5">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
-                    </span>
-                    Sistem Computer Based Test Aktif
-                </div>
-
-                <!-- Main Heading -->
-                <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-[1.1] mb-8 tracking-tighter">
-                    Tingkatkan <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">Kualitas</span> <br class="hidden sm:block">
-                    Evaluasi Belajar.
-                </h1>
-                
-                <!-- Description -->
-                <p class="text-lg md:text-2xl text-gray-500 mb-12 max-w-3xl leading-relaxed font-medium">
-                    Platform ujian sekolah digital super cepat dan aman untuk <strong class="text-gray-800 whitespace-nowrap">PKBM AL-QUDWAH</strong>. Menghadirkan pengalaman ujian tanpa hambatan bagi siswa dan guru.
-                </p>
-                
-                <!-- Call to Action Buttons -->
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
-                @if (Route::has('login'))
-                    @auth
-                        <a href="{{ route('dashboard') }}" class="w-full sm:w-auto inline-flex items-center justify-center bg-blue-600 text-white px-8 py-4 rounded-full font-extrabold text-lg transition-all hover:bg-blue-700 hover:scale-105 hover:shadow-[0_0_40px_rgba(37,99,235,0.4)]">
-                            Buka Dashboard Utama
-                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="w-full sm:w-auto inline-flex items-center justify-center bg-blue-600 text-white px-10 py-4 rounded-full font-extrabold text-lg transition-all hover:bg-blue-700 hover:scale-105 shadow-xl hover:shadow-[0_0_40px_rgba(37,99,235,0.4)]">
-                            Mulai Login Aplikasi
-                        </a>
-                        <a href="#fitur" class="w-full sm:w-auto inline-flex items-center justify-center bg-white text-gray-800 border border-gray-200 px-8 py-4 rounded-full font-bold text-lg transition-all hover:bg-gray-50 hover:shadow-lg">
-                            Pelajari Fitur
-                        </a>
-                    @endauth
-                @endif
-                </div>
-
             </div>
         </main>
 
-        <!-- Feature Section -->
-        <section id="fitur" class="py-24 relative z-10">
+        <!-- Tentang CBT Section -->
+        <section id="tentang-cbt" class="py-24 bg-white relative z-10">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Dirancang Untuk Efisiensi</h2>
-                    <p class="text-gray-500 mt-4 text-lg">Semua yang Anda butuhkan untuk menyelenggarakan ujian berstandar tinggi.</p>
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-4">Apa itu CBT?</h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        Computer Based Test (CBT) adalah sistem pelaksanaan ujian yang sepenuhnya dilakukan secara digital menggunakan perangkat komputer atau *smartphone*. Sistem ini menggantikan ujian berbasis kertas (Paper Based Test) untuk memberikan pengalaman yang lebih modern, efisien, dan transparan.
+                    </p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Card 1 -->
-                    <div class="bg-white rounded-[2rem] p-8 shadow-xl shadow-gray-200/50 border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">Manajemen Waktu</h3>
-                        <p class="text-gray-500 leading-relaxed">Timer presisi yang tersinkronisasi di sisi server. Memastikan ujian selesai tepat waktu tanpa kecurangan.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Manajemen Waktu</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Waktu pengerjaan ujian terpusat pada sistem (server), sehingga seluruh siswa memiliki durasi yang presisi tanpa takut dicurangi.</p>
                     </div>
                     
-                    <!-- Card 2 -->
-                    <div class="bg-white rounded-[2rem] p-8 shadow-xl shadow-gray-200/50 border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-                        <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/30">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                    <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">Autosave Real-time</h3>
-                        <p class="text-gray-500 leading-relaxed">Setiap detik dan setiap klik jawaban otomatis tersimpan. Siswa tidak perlu khawatir jika koneksi terputus.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Sistem Autosave</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Setiap pilihan jawaban otomatis tersimpan ke server. Jika terjadi masalah perangkat atau koneksi, jawaban siswa tidak akan hilang.</p>
                     </div>
                     
-                    <!-- Card 3 -->
-                    <div class="bg-white rounded-[2rem] p-8 shadow-xl shadow-gray-200/50 border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-                        <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">Nilai Otomatis</h3>
-                        <p class="text-gray-500 leading-relaxed">Sistem langsung melakukan kalkulasi rekap nilai dan statistik ujian seketika setelah ujian berakhir.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Nilai Real-time</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Setelah ujian berakhir, sistem secara instan akan mengkalkulasi skor siswa sehingga guru bisa langsung melihat rekapitulasi penilaian.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="bg-white border-t border-gray-200 py-10 relative z-10">
-            <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
-                <div class="flex items-center space-x-3 mb-4 md:mb-0">
-                    <img src="{{ asset('image/logo.jpg') }}" alt="Logo" class="w-8 h-8 rounded-md">
-                    <span class="font-bold text-gray-900 whitespace-nowrap">PKBM AL-QUDWAH</span>
+        <!-- Tata Cara Ujian (Simulasi) Section -->
+        <section id="tata-cara" class="py-24 bg-slate-50 border-t border-slate-200 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-4">Tata Cara Penggunaan</h2>
+                    <p class="text-lg text-slate-600">Panduan singkat bagi siswa baru mengenai bagaimana cara melaksanakan ujian di platform ini.</p>
                 </div>
-                <p class="text-gray-500 text-sm font-medium">
-                    &copy; {{ date('Y') }} Hak Cipta Dilindungi. Sistem Ujian Modern.
-                </p>
+
+                <div class="space-y-12 max-w-4xl mx-auto">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col sm:flex-row items-start gap-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex-shrink-0 w-14 h-14 bg-blue-600 text-white font-black text-2xl flex items-center justify-center rounded-xl">1</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Login ke Sistem</h3>
+                            <p class="text-slate-600 leading-relaxed">
+                                Klik tombol <strong>Login</strong>, lalu masukkan <strong>NISN</strong> atau email beserta kata sandi yang telah diberikan oleh operator sekolah. Setelah berhasil, Anda akan masuk ke halaman Dashboard Siswa.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col sm:flex-row items-start gap-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex-shrink-0 w-14 h-14 bg-blue-600 text-white font-black text-2xl flex items-center justify-center rounded-xl">2</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Pilih Ujian Aktif</h3>
+                            <p class="text-slate-600 leading-relaxed">
+                                Navigasi ke menu <strong>Daftar Ujian</strong>. Anda akan melihat daftar mata pelajaran yang dijadwalkan. Klik <strong>Kerjakan</strong> pada ujian yang statusnya sedang <em>Aktif</em>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col sm:flex-row items-start gap-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex-shrink-0 w-14 h-14 bg-blue-600 text-white font-black text-2xl flex items-center justify-center rounded-xl">3</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Jawab Soal dengan Teliti</h3>
+                            <p class="text-slate-600 leading-relaxed">
+                                Baca setiap butir soal, lalu pilih opsi jawaban (A, B, C, D, dsb) yang menurut Anda paling tepat. Tombol indikator soal akan berubah warna setelah Anda menjawab. Perhatikan sisa waktu pada timer di bagian atas layar.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flex flex-col sm:flex-row items-start gap-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex-shrink-0 w-14 h-14 bg-blue-600 text-white font-black text-2xl flex items-center justify-center rounded-xl">4</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Akhiri & Selesaikan Ujian</h3>
+                            <p class="text-slate-600 leading-relaxed">
+                                Jika semua soal sudah dikerjakan, klik tombol <strong>Selesai Ujian</strong>. Jika waktu habis (timer mencapai angka nol), sistem akan otomatis menyelesaikan ujian Anda dan menutup akses.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16 text-center">
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center bg-slate-900 text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-slate-800 shadow-xl">
+                        Mulai Simulasi / Login Sekarang
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-slate-200 py-10 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+                <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                    <img src="{{ asset('image/logo.jpg') }}" alt="Logo" class="w-8 h-8 rounded-md border border-slate-100">
+                    <span class="font-extrabold text-slate-900 tracking-tight">PKBM AL-QUDWAH</span>
+                </div>
+                <div class="text-slate-500 text-sm font-medium">
+                    &copy; {{ date('Y') }} Hak Cipta Dilindungi.
+                </div>
             </div>
         </footer>
     </body>
