@@ -111,9 +111,9 @@
                     </div>
                     
                     <!-- Image Content -->
-                    <div class="relative w-full max-w-[14rem] sm:max-w-[18rem] lg:max-w-[22rem] mx-auto animate-float">
+                    <div class="relative w-full max-w-[12rem] sm:max-w-[15rem] lg:max-w-[18rem] mx-auto animate-float">
                         <div class="absolute inset-0 bg-blue-400 rounded-full blur-3xl opacity-40 animate-pulse"></div>
-                        <div class="relative bg-white rounded-full shadow-2xl border-[6px] sm:border-[8px] border-white overflow-hidden flex items-center justify-center aspect-square">
+                        <div class="relative bg-white rounded-full shadow-2xl border-[5px] sm:border-[8px] border-white overflow-hidden flex items-center justify-center aspect-square">
                             <img src="{{ asset('image/logo.jpg') }}" alt="Logo Besar" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-700">
                         </div>
                     </div>
@@ -174,7 +174,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="text-center max-w-3xl mx-auto mb-16">
                     <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-4">Tata Cara Penggunaan</h2>
-                    <p class="text-lg text-slate-300">Panduan langkah demi langkah bagi siswa mengenai tata cara pelaksanaan ujian di portal CBT.</p>
+                    <p class="text-lg text-slate-100">Panduan langkah demi langkah bagi siswa mengenai tata cara pelaksanaan ujian di portal CBT.</p>
                 </div>
 
                 <div class="max-w-4xl mx-auto space-y-6">
@@ -185,7 +185,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">Login ke Sistem</h3>
-                            <p class="text-slate-300 leading-relaxed">
+                            <p class="text-slate-100 leading-relaxed">
                                 Klik tombol <strong class="text-white">Login</strong>, lalu masukkan <strong class="text-white">NISN</strong> atau email beserta kata sandi yang telah diberikan oleh operator sekolah. Setelah berhasil, Anda akan masuk ke halaman Dashboard Siswa.
                             </p>
                         </div>
@@ -198,7 +198,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">Pilih Ujian Aktif</h3>
-                            <p class="text-slate-300 leading-relaxed">
+                            <p class="text-slate-100 leading-relaxed">
                                 Navigasi ke menu <strong class="text-white">Daftar Ujian</strong>. Anda akan melihat daftar mata pelajaran yang dijadwalkan. Klik <strong class="text-white">Kerjakan</strong> pada ujian yang statusnya sedang <em class="text-blue-300">Aktif</em>.
                             </p>
                         </div>
@@ -211,7 +211,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">Jawab Soal dengan Teliti</h3>
-                            <p class="text-slate-300 leading-relaxed">
+                            <p class="text-slate-100 leading-relaxed">
                                 Baca setiap butir soal, lalu pilih opsi jawaban (A, B, C, D) yang menurut Anda paling tepat. Tombol indikator soal akan berubah warna setelah Anda menjawab. Perhatikan sisa waktu pada timer di bagian atas layar.
                             </p>
                         </div>
@@ -224,7 +224,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">Akhiri & Selesaikan Ujian</h3>
-                            <p class="text-slate-300 leading-relaxed">
+                            <p class="text-slate-100 leading-relaxed">
                                 Jika semua soal sudah dikerjakan, klik tombol <strong class="text-white">Selesai Ujian</strong>. Jika waktu habis, sistem akan otomatis menyelesaikan ujian Anda dan menutup akses secara otomatis.
                             </p>
                         </div>
