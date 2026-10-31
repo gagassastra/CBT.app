@@ -9,6 +9,9 @@ class JawabanSiswa extends Model
     //
 
     protected $guarded = [];
+    protected $casts = [
+        'skor' => 'float',
+    ];
     public function pesertaUjian() {
         return $this->belongsTo(PesertaUjian::class);
     }

@@ -52,6 +52,63 @@ class LaporanController extends Controller
         return $pdf->download('Laporan_Hasil_Nilai_' . str_replace(' ', '_', $ujian->nama_ujian) . '.pdf');
     }
 
+    /**
+     * Halaman koreksi soal esai milik seorang peserta.
+     */
+    public function koreksi($peserta_id)
+    {
+        [$peserta, $ujian] = $this->pesertaDanUjian($peserta_id);
+
+        $soals = $ujian->soals()->where('tipe', 'esai')->orderBy('id')->get();
+        $jawabans = JawabanSiswa::where('peserta_ujian_id', $peserta->id)
+            ->whereIn('soal_id', $soals->pluck('id'))
+            ->get()->keyBy('soal_id');
+        $peserta->load('siswa', 'hasilUjian');
+
+        return view('guru.laporan.koreksi', compact('ujian', 'peserta', 'soals', 'jawabans'));
+    }
+
+    public function simpanKoreksi(Request $request, $peserta_id)
+    {
+        [$peserta, $ujian] = $this->pesertaDanUjian($peserta_id);
+
+        $request->validate([
+            'skor' => 'nullable|array',
+            'skor.*' => 'nullable|numeric|min:0',
+        ]);
+
+        $soals = $ujian->soals()->where('tipe', 'esai')->get()->keyBy('id');
+        $jawabans = JawabanSiswa::where('peserta_ujian_id', $peserta->id)
+            ->whereIn('soal_id', $soals->keys())
+            ->get();
+
+        foreach ($jawabans as $jawab) {
+            $input = $request->input('skor.' . $jawab->id);
+            if ($input === null || $input === '') {
+                $jawab->update(['skor' => null]); // dikosongkan = belum dinilai
+                continue;
+            }
+            $maks = max(0, (float) ($soals[$jawab->soal_id]->bobot ?? 1));
+            $jawab->update(['skor' => min((float) $input, $maks)]);
+        }
+
+        HasilUjian::hitung($peserta, $ujian);
+
+        return redirect()->route(auth()->user()->role . '.laporan.show', $ujian->id)->with('success', 'Koreksi esai berhasil disimpan.');
+    }
+
+    /** Ambil peserta + ujian, dan pastikan guru hanya mengakses ujiannya sendiri. */
+    private function pesertaDanUjian($peserta_id): array
+    {
+        $peserta = PesertaUjian::findOrFail($peserta_id);
+        $ujian = Ujian::findOrFail($peserta->ujian_id);
+
+        if (auth()->user()->role === 'guru' && $ujian->guru_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        return [$peserta, $ujian];
+    }
+
     public function reset($peserta_id)
     {
         $peserta = PesertaUjian::findOrFail($peserta_id);

@@ -119,15 +119,30 @@ class UjianController extends Controller {
         }
 
         if($peserta->status == 'selesai') return redirect()->route('siswa.ujian.index')->with('error', 'Sudah selesai');
-        return view('siswa.ujian.kerjakan', compact('ujian', 'peserta'));
+        $jawabans = \App\Models\JawabanSiswa::where('peserta_ujian_id', $peserta->id)->pluck('jawaban', 'soal_id');
+        return view('siswa.ujian.kerjakan', compact('ujian', 'peserta', 'jawabans'));
     }
     public function simpanJawaban(Request $request, $id) {
         $peserta = \App\Models\PesertaUjian::where('ujian_id', $id)->where('siswa_id', auth()->id())->firstOrFail();
+
+        if ($peserta->status === 'selesai') {
+            return response()->json(['success' => false, 'message' => 'Ujian sudah selesai.'], 403);
+        }
+
+        // Soal harus milik ujian ini
+        $soal = \App\Models\Soal::where('ujian_id', $id)->findOrFail($request->input('soal_id'));
+
+        if ($soal->isEsai()) {
+            $request->validate(['jawaban' => 'nullable|string|max:20000']);
+        } else {
+            $request->validate(['jawaban' => 'nullable|in:A,B,C,D,E']);
+        }
+
         \App\Models\JawabanSiswa::updateOrCreate([
             'peserta_ujian_id' => $peserta->id,
-            'soal_id' => $request->soal_id
+            'soal_id' => $soal->id
         ], [
-            'jawaban' => $request->jawaban
+            'jawaban' => $request->input('jawaban')
         ]);
         return response()->json(['success' => true]);
     }
@@ -139,41 +154,23 @@ class UjianController extends Controller {
              return redirect()->route('siswa.ujian.index')->with('error', 'Ujian sudah diselesaikan sebelumnya.');
         }
 
-        $nilai = $this->prosesSelesai($peserta, $ujian);
-        return redirect()->route('siswa.ujian.index')->with('success', 'Ujian selesai. Nilai: ' . $nilai);
+        $hasil = $this->prosesSelesai($peserta, $ujian);
+        $pesan = 'Ujian selesai. Nilai: ' . number_format($hasil->nilai_akhir, 0);
+        if ($hasil->esai_belum_dinilai > 0) {
+            $pesan .= ' (sementara, ' . $hasil->esai_belum_dinilai . ' soal esai menunggu dikoreksi guru)';
+        }
+        return redirect()->route('siswa.ujian.index')->with('success', $pesan);
     }
 
     private function prosesSelesai($peserta, $ujian) {
         $peserta->update(['status' => 'selesai', 'waktu_selesai_mengerjakan' => now()]);
-        
-        // Penilaian
-        $benar = 0; $salah = 0; $kosong = 0;
-        
+
         // Load soals if not loaded
         if (!$ujian->relationLoaded('soals')) {
             $ujian->load('soals');
         }
 
-        $jumlahSoal = count($ujian->soals);
-
-        foreach($ujian->soals as $soal) {
-            $jawab = \App\Models\JawabanSiswa::where('peserta_ujian_id', $peserta->id)->where('soal_id', $soal->id)->first();
-            if(!$jawab) { $kosong++; }
-            else if($jawab->jawaban == $soal->jawaban_benar) { $benar++; }
-            else { $salah++; }
-        }
-        
-        $nilai = $jumlahSoal > 0 ? ($benar / $jumlahSoal) * 100 : 0;
-        
-        \App\Models\HasilUjian::firstOrCreate([
-            'peserta_ujian_id' => $peserta->id
-        ], [
-            'jumlah_benar' => $benar,
-            'jumlah_salah' => $salah,
-            'tidak_dijawab' => $kosong,
-            'nilai_akhir' => $nilai
-        ]);
-
-        return $nilai;
+        // Penilaian (pilihan ganda otomatis, esai menunggu koreksi guru)
+        return \App\Models\HasilUjian::hitung($peserta, $ujian);
     }
 }

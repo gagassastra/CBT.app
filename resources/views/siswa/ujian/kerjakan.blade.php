@@ -17,11 +17,16 @@
 </div>
 @endif
 <p class="text-lg text-gray-800 mb-4"><b>{{ $i+1 }}.</b> {{ $soal->pertanyaan }}</p>
+@if($soal->isEsai())
+<textarea id='esai_{{ $soal->id }}' data-soal-id='{{ $soal->id }}' rows='8' maxlength='20000' placeholder='Tulis jawaban Anda di sini...' class='esai-input block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-800'>{{ $jawabans[$soal->id] ?? '' }}</textarea>
+<p class='text-xs text-gray-400 mt-1'>Jawaban tersimpan otomatis. Soal esai dikoreksi oleh guru.</p>
+@else
 @foreach(['a','b','c','d','e'] as $opt)
 @if($soal->{'opsi_'.$opt})
-<div><label><input type='radio' name='jawaban_{{$soal->id}}' value='{{ strtoupper($opt) }}' onchange="simpanJawaban('{{$soal->id}}', this.value)"> {{ $soal->{'opsi_'.$opt} }}</label></div>
+<div><label><input type='radio' name='jawaban_{{$soal->id}}' value='{{ strtoupper($opt) }}' {{ ($jawabans[$soal->id] ?? null) === strtoupper($opt) ? 'checked' : '' }} onchange="simpanJawaban('{{$soal->id}}', this.value)"> {{ $soal->{'opsi_'.$opt} }}</label></div>
 @endif
 @endforeach
+@endif
 </div>
 @endforeach
 <div class='mt-4 flex justify-between'>
@@ -63,17 +68,37 @@ function nextSoal() {
         showSoal(current+1); 
     } else {
         if(confirm('Apakah Anda yakin sudah selesai dan ingin mengumpulkan ujian ini?')) {
-            document.getElementById('formSelesai').submit();
+            kumpulkan();
         }
     }
 }
 function prevSoal() { if(current > 0) showSoal(current-1); }
 function simpanJawaban(soal_id, jawaban) {
- fetch('{{ route('siswa.ujian.simpan', $ujian->id) }}', {
+ return fetch('{{ route('siswa.ujian.simpan', $ujian->id) }}', {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+  headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
   body: JSON.stringify({ soal_id, jawaban })
+ }).catch(() => {});
+}
+// Jawaban esai: simpan otomatis setelah berhenti mengetik
+let esaiTimers = {};
+document.querySelectorAll('.esai-input').forEach(el => {
+ el.addEventListener('input', () => {
+  clearTimeout(esaiTimers[el.dataset.soalId]);
+  esaiTimers[el.dataset.soalId] = setTimeout(() => simpanJawaban(el.dataset.soalId, el.value), 800);
  });
+});
+// Pastikan semua jawaban esai tersimpan sebelum ujian dikumpulkan
+let sedangKumpul = false;
+async function kumpulkan() {
+ if (sedangKumpul) return;
+ sedangKumpul = true;
+ const saves = Array.from(document.querySelectorAll('.esai-input')).map(el => {
+  clearTimeout(esaiTimers[el.dataset.soalId]);
+  return simpanJawaban(el.dataset.soalId, el.value);
+ });
+ await Promise.all(saves);
+ document.getElementById('formSelesai').submit();
 }
 // Timer Logic
 @php
@@ -87,7 +112,7 @@ let timerInterval = setInterval(function() {
  let m = Math.floor(duration / 60); 
  let s = Math.floor(duration % 60);
  document.getElementById('timer').innerText = m + 'm ' + s + 's';
- if(duration <= 0) { clearInterval(timerInterval); document.getElementById('formSelesai').submit(); }
+ if(duration <= 0) { clearInterval(timerInterval); kumpulkan(); }
 }, 1000);
 </script>
 </x-app-layout>

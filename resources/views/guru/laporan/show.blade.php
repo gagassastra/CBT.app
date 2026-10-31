@@ -30,6 +30,10 @@
                             <th class="px-6 py-4 font-semibold">Benar</th>
                             <th class="px-6 py-4 font-semibold">Salah</th>
                             <th class="px-6 py-4 font-semibold">Kosong</th>
+                            @php $adaEsai = $ujian->soals()->where('tipe', 'esai')->exists(); @endphp
+                            @if($adaEsai)
+                            <th class="px-6 py-4 font-semibold">Esai</th>
+                            @endif
                             <th class="px-6 py-4 font-semibold">Nilai Akhir</th>
                             @if(auth()->user()->role === 'admin')
                             <th class="px-6 py-4 font-semibold rounded-tr-xl text-center">Aksi</th>
@@ -45,6 +49,13 @@
                                 <td class="px-6 py-4 text-green-600 font-bold">{{ $peserta->hasilUjian->jumlah_benar }}</td>
                                 <td class="px-6 py-4 text-red-600 font-bold">{{ $peserta->hasilUjian->jumlah_salah }}</td>
                                 <td class="px-6 py-4 text-slate-400 font-bold">{{ $peserta->hasilUjian->tidak_dijawab }}</td>
+                                @if($adaEsai)
+                                <td class="px-6 py-4">
+                                    <a href="{{ route(auth()->user()->role . '.laporan.koreksi', $peserta->id) }}" class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold shadow-sm transition {{ $peserta->hasilUjian->esai_belum_dinilai > 0 ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' }}">
+                                        {{ $peserta->hasilUjian->esai_belum_dinilai > 0 ? 'Koreksi (' . $peserta->hasilUjian->esai_belum_dinilai . ')' : 'Lihat/Ubah' }}
+                                    </a>
+                                </td>
+                                @endif
                                 <td class="px-6 py-4 text-blue-600 font-black text-lg">{{ number_format($peserta->hasilUjian->nilai_akhir, 0) }}</td>
                                 @if(auth()->user()->role === 'admin')
                                 <td class="px-6 py-4 text-center">

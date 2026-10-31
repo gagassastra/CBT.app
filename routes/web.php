@@ -24,6 +24,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/laporan/{id}', [\App\Http\Controllers\LaporanController::class, 'show'])->name('laporan.show');
     Route::get('/laporan/{id}/pdf', [\App\Http\Controllers\LaporanController::class, 'cetakPdf'])->name('laporan.pdf');
     Route::post('/laporan/reset/{peserta_id}', [\App\Http\Controllers\LaporanController::class, 'reset'])->name('laporan.reset');
+    Route::get('/laporan/koreksi/{peserta_id}', [\App\Http\Controllers\LaporanController::class, 'koreksi'])->name('laporan.koreksi');
+    Route::post('/laporan/koreksi/{peserta_id}', [\App\Http\Controllers\LaporanController::class, 'simpanKoreksi'])->name('laporan.koreksi.simpan');
 });
 
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
@@ -34,6 +36,8 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
     Route::get('/laporan/{id}', [\App\Http\Controllers\LaporanController::class, 'show'])->name('laporan.show');
     Route::get('/laporan/{id}/pdf', [\App\Http\Controllers\LaporanController::class, 'cetakPdf'])->name('laporan.pdf');
     Route::post('/laporan/reset/{peserta_id}', [\App\Http\Controllers\LaporanController::class, 'reset'])->name('laporan.reset');
+    Route::get('/laporan/koreksi/{peserta_id}', [\App\Http\Controllers\LaporanController::class, 'koreksi'])->name('laporan.koreksi');
+    Route::post('/laporan/koreksi/{peserta_id}', [\App\Http\Controllers\LaporanController::class, 'simpanKoreksi'])->name('laporan.koreksi.simpan');
 });
 
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {

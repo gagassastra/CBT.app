@@ -66,6 +66,17 @@
             </div>
         </div>
 
+        <div class="flex flex-wrap items-center gap-4 mb-3">
+            <select name="soal[__K__][tipe]" data-field="tipe" class="rounded-lg border-slate-300 text-sm font-semibold text-slate-700 focus:border-blue-600 focus:ring-blue-600 py-2 pr-9">
+                <option value="pilihan_ganda">Pilihan Ganda</option>
+                <option value="esai">Esai (Uraian)</option>
+            </select>
+            <label class="inline-flex items-center text-sm text-slate-600 gap-2">
+                Poin
+                <input type="number" name="soal[__K__][bobot]" data-field="bobot" min="1" max="100" value="1" required class="w-20 rounded-lg border-slate-300 text-sm py-1.5 focus:border-blue-600 focus:ring-blue-600">
+            </label>
+        </div>
+
         <textarea name="soal[__K__][pertanyaan]" data-field="pertanyaan" rows="2" required placeholder="Tulis pertanyaan..."
             class="block w-full bg-slate-50 border-0 border-b-2 border-slate-300 focus:border-blue-600 focus:ring-0 rounded-t-lg text-base p-3"></textarea>
 
@@ -79,8 +90,16 @@
             <div class="media-preview grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3"></div>
         </div>
 
+        <!-- Esai (Uraian) -->
+        <div class="esai-section hidden mt-5 space-y-3">
+            <div class="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-3 py-4 text-sm text-slate-400">Siswa menjawab dengan teks panjang (uraian). Jawaban dikoreksi dan diberi skor oleh guru.</div>
+            <label class="block text-sm font-medium text-slate-600">Pedoman / kunci jawaban <span class="text-xs text-slate-400">(opsional, hanya terlihat oleh guru saat mengoreksi)</span></label>
+            <textarea name="soal[__K__][pedoman]" data-field="pedoman" rows="2" disabled placeholder="Contoh: poin-poin jawaban yang benar..."
+                class="block w-full bg-slate-50 border-0 border-b-2 border-slate-300 focus:border-blue-600 focus:ring-0 rounded-t-lg text-sm p-3"></textarea>
+        </div>
+
         <!-- Opsi -->
-        <div class="mt-5 space-y-3">
+        <div class="pg-section mt-5 space-y-3">
             @foreach(['A','B','C','D'] as $o)
             <div class="flex items-center gap-3">
                 <input type="radio" name="soal[__K__][jawaban_benar]" value="{{ $o }}" data-field="kunci" required title="Tandai sebagai jawaban benar" class="w-5 h-5 text-green-600 focus:ring-green-500 border-slate-400 cursor-pointer shrink-0">
@@ -101,7 +120,7 @@
             </div>
             <button type="button" data-action="add-e" class="text-sm text-blue-600 hover:text-blue-800 font-medium ml-1">+ Tambah opsi E</button>
         </div>
-        <p class="text-xs text-slate-400 mt-4">Bulatan = kunci jawaban benar.</p>
+        <p class="pg-hint text-xs text-slate-400 mt-4">Bulatan = kunci jawaban benar.</p>
     </div>
 </template>
 
@@ -124,8 +143,12 @@
         filesByKey[key] = [];
 
         q(card, '[data-field="pertanyaan"]').value = data.pertanyaan || '';
+        q(card, '[data-field="bobot"]').value = data.bobot || 1;
+        q(card, '[data-field="pedoman"]').value = data.pedoman || '';
         ['a','b','c','d','e'].forEach(l => { q(card, `[data-field="opsi_${l}"]`).value = data['opsi_' + l] || ''; });
         if (data.opsi_e) showE(card, true);
+        q(card, '[data-field="tipe"]').value = data.tipe === 'esai' ? 'esai' : 'pilihan_ganda';
+        setTipe(card);
         if (data.jawaban_benar) {
             const r = card.querySelector(`[data-field="kunci"][value="${data.jawaban_benar}"]`);
             if (r) r.checked = true;
@@ -134,6 +157,19 @@
         if (afterCard) afterCard.after(card); else list.appendChild(card);
         renumber();
         return card;
+    }
+
+    // Tampilkan bagian sesuai jenis soal; input bagian yang disembunyikan dinonaktifkan
+    // agar tidak ikut terkirim dan tidak memicu validasi "required" browser.
+    function setTipe(card) {
+        const esai = q(card, '[data-field="tipe"]').value === 'esai';
+        const pg = q(card, '.pg-section');
+        const es = q(card, '.esai-section');
+        pg.classList.toggle('hidden', esai);
+        es.classList.toggle('hidden', !esai);
+        q(card, '.pg-hint').classList.toggle('hidden', esai);
+        pg.querySelectorAll('input, textarea, select').forEach(el => { el.disabled = esai; });
+        es.querySelectorAll('input, textarea, select').forEach(el => { el.disabled = !esai; });
     }
 
     function showE(card, show) {
@@ -175,6 +211,7 @@
     }
 
     list.addEventListener('change', function (e) {
+        if (e.target.dataset.field === 'tipe') { setTipe(e.target.closest('.soal-card')); return; }
         if (e.target.dataset.field !== 'media') return;
         const card = e.target.closest('.soal-card');
         const key = card.dataset.key;
@@ -213,6 +250,9 @@
             case 'duplicate': {
                 const kunci = card.querySelector('[data-field="kunci"]:checked');
                 const copy = addCard({
+                    tipe: q(card, '[data-field="tipe"]').value,
+                    bobot: q(card, '[data-field="bobot"]').value,
+                    pedoman: q(card, '[data-field="pedoman"]').value,
                     pertanyaan: q(card, '[data-field="pertanyaan"]').value,
                     opsi_a: q(card, '[data-field="opsi_a"]').value,
                     opsi_b: q(card, '[data-field="opsi_b"]').value,

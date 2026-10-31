@@ -76,11 +76,26 @@
                     </div>
                 </div>
 
+                <div class='mb-6 flex flex-wrap items-end gap-6'>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Soal</label>
+                        <select name='tipe' id='tipe-soal' class="rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-3 font-semibold text-slate-700">
+                            <option value='pilihan_ganda' {{ old('tipe', $data->tipe) !== 'esai' ? 'selected' : '' }}>Pilihan Ganda</option>
+                            <option value='esai' {{ old('tipe', $data->tipe) === 'esai' ? 'selected' : '' }}>Esai (Uraian)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Poin</label>
+                        <input type='number' name='bobot' min='1' max='100' required value='{{ old('bobot', $data->bobot ?? 1) }}' class="w-24 rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-3">
+                    </div>
+                </div>
+
                 <div class='mb-8'>
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Teks Pertanyaan <span class="text-red-500">*</span></label>
                     <textarea name='pertanyaan' rows="4" required class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-4">{{ $data->pertanyaan }}</textarea>
                 </div>
 
+                <div id='pg-section'>
                 <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 mb-8 space-y-5">
                     <h4 class="font-semibold text-slate-700 text-sm mb-4 border-b border-slate-200 pb-2">Pilihan Ganda</h4>
                     
@@ -120,7 +135,14 @@
                         <option value='E' {{ $data->jawaban_benar=='E'?'selected':'' }}>Jawaban E</option>
                     </select>
                 </div>
-                
+                </div>
+
+                <div id='esai-section' class='hidden mb-8'>
+                    <div class="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm text-slate-500 mb-4">Siswa menjawab dengan teks panjang (uraian). Jawaban dikoreksi dan diberi skor oleh guru.</div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Pedoman / Kunci Jawaban <span class="text-xs font-normal text-slate-500 ml-1">*Opsional, hanya terlihat oleh guru saat mengoreksi</span></label>
+                    <textarea name='pedoman' rows="3" class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-4">{{ old('pedoman', $data->pedoman) }}</textarea>
+                </div>
+
                 <div class="pt-6 mt-8 border-t border-slate-200 flex justify-end">
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 px-10 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 inline-flex items-center transform hover:-translate-y-1">
                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -133,6 +155,18 @@
 </div>
 
 <script>
+    function toggleTipe() {
+        const esai = document.getElementById('tipe-soal').value === 'esai';
+        const pg = document.getElementById('pg-section');
+        const es = document.getElementById('esai-section');
+        pg.classList.toggle('hidden', esai);
+        es.classList.toggle('hidden', !esai);
+        pg.querySelectorAll('input, textarea, select').forEach(el => el.disabled = esai);
+        es.querySelectorAll('input, textarea, select').forEach(el => el.disabled = !esai);
+    }
+    document.getElementById('tipe-soal').addEventListener('change', toggleTipe);
+    toggleTipe();
+
     let selectedFiles = [];
     
     document.getElementById('file-upload').addEventListener('change', function(event) {
