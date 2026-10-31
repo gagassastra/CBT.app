@@ -1,237 +1,211 @@
 <x-app-layout>
-<x-slot name="header">
-    <div class="flex items-center">
-        <a href="{{ route(auth()->user()->role . '.ujian.show', $ujian_id) }}" class="mr-4 text-slate-500 hover:text-blue-600 transition">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        </a>
-        <h2 class="font-bold text-2xl text-slate-800 leading-tight tracking-tight">Edit Soal</h2>
-    </div>
-</x-slot>
-
-<div class='max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8'>
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="bg-slate-50 px-8 py-5 border-b border-slate-100 flex items-center">
-            <div class="bg-amber-100 text-amber-600 p-2 rounded-lg mr-4">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-            </div>
-            <div>
-                <h3 class="text-lg font-bold text-slate-800">Edit Detail Soal</h3>
-                <p class="text-sm text-slate-500">Perbarui pertanyaan, media, atau opsi jawaban di bawah ini.</p>
-            </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div>
+            <a href="{{ route(auth()->user()->role . '.ujian.show', $ujian_id) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Kembali ke Daftar Soal Ujian
+            </a>
         </div>
 
-        <div class="p-8">
-            @if($errors->any())
-                <div class='mb-6 p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl'>
-                    <ul class='list-disc pl-5 text-sm'>
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
+            <div class="bg-gradient-to-r from-slate-50 to-white px-6 sm:px-8 py-6 border-b border-slate-100 flex items-center justify-between">
+                <div>
+                    <h1 class="text-xl font-extrabold text-slate-900 tracking-tight">Perbarui Butir Soal</h1>
+                    <p class="text-sm text-slate-500 mt-1">Ubah teks pertanyaan, lampiran media, opsi pilihan ganda, atau kunci jawaban.</p>
                 </div>
-            @endif
+                <div class="hidden sm:flex w-11 h-11 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                </div>
+            </div>
 
-                @if($data->media_files && count($data->media_files) > 0)
-                <div id='old-media-container' class='mb-6 p-6 bg-slate-50 border border-slate-200 rounded-xl'>
-                    <p class='text-sm font-semibold text-slate-700 mb-3 flex items-center'>
-                        <svg class="w-4 h-4 mr-1 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
-                        Media Terlampir Saat Ini:
-                    </p>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        @foreach($data->media_files as $index => $media)
-                        <div class="relative group rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white p-2" id="old-media-{{$index}}">
-                            @if(preg_match('/^.*\.(mp4|webm)$/i', $media))
-                                <video controls class="w-full h-32 object-cover rounded"><source src="{{ asset('storage/' . $media) }}"></video>
-                            @else
-                                <img src="{{ asset('storage/' . $media) }}" class="w-full h-32 object-cover rounded">
-                            @endif
-                            <label class="absolute top-3 left-3 bg-red-100 hover:bg-red-200 text-red-700 text-xs px-2 py-1 rounded cursor-pointer border border-red-300 font-bold shadow-sm transition">
-                                <input type="checkbox" name="delete_media[]" value="{{ $media }}" class="mr-1"> Hapus
-                            </label>
-                        </div>
-                        @endforeach
+            <form action="{{ route(auth()->user()->role . '.ujian.soal.update', [$ujian_id, $data->id]) }}" method="POST" enctype="multipart/form-data" class="p-6 sm:p-8 space-y-6">
+                @csrf
+                @method('PUT')
+
+                @if($errors->any())
+                    <div class="p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl">
+                        <ul class="list-disc pl-5 text-xs space-y-0.5">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
-                </div>
                 @endif
 
-                <div class='mb-6'>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Tambah Media Pendukung <span class="text-xs font-normal text-slate-500 ml-1">*Bisa pilih lebih dari satu, Maks 5 total file</span></label>
-                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-blue-400 hover:bg-blue-50/50 transition duration-150">
+                @if($data->media_files && count($data->media_files) > 0)
+                    <div id="old-media-container" class="p-5 bg-slate-50 border border-slate-200/80 rounded-xl">
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Media Terlampir Saat Ini</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            @foreach($data->media_files as $index => $media)
+                                <div class="relative group rounded-xl overflow-hidden border border-slate-200 bg-white p-2" id="old-media-{{ $index }}">
+                                    @if(preg_match('/^.*\.(mp4|webm)$/i', $media))
+                                        <video controls class="w-full h-32 object-cover rounded-lg"><source src="{{ asset('storage/' . $media) }}"></video>
+                                    @else
+                                        <img src="{{ asset('storage/' . $media) }}" class="w-full h-32 object-cover rounded-lg">
+                                    @endif
+                                    <label class="mt-2 flex items-center justify-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-700 text-xs px-2.5 py-1.5 rounded-lg cursor-pointer border border-red-200 font-bold transition">
+                                        <input type="checkbox" name="delete_media[]" value="{{ $media }}" class="rounded border-red-300 text-red-600 focus:ring-red-500">
+                                        Hapus Media
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <div>
+                    <label class="ui-label">Tambah Media Pendukung <span class="text-xs font-normal text-slate-400 ml-1">(Maks. 5 total file, 20MB/file)</span></label>
+                    <div class="mt-1 flex justify-center px-6 py-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-blue-400 hover:bg-blue-50/40 transition">
                         <div class="space-y-1 text-center">
-                            <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <svg class="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                                 <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <div class="flex text-sm text-slate-600 justify-center">
-                                <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                    <span class="px-2">Pilih file tambahan</span>
+                                <label for="file-upload" class="relative cursor-pointer rounded-md font-bold text-blue-600 hover:text-blue-700">
+                                    <span>Pilih file gambar atau video tambahan</span>
                                     <input id="file-upload" name="media_files[]" type="file" accept="image/*,video/*" multiple class="sr-only">
                                 </label>
                             </div>
-                            <p class="text-xs text-slate-500">PNG, JPG, MP4 hingga 20MB</p>
+                            <p class="text-xs text-slate-400">Format: PNG, JPG, MP4, WebM</p>
                         </div>
                     </div>
-                    <!-- Preview Container -->
                     <div id="media-preview-container" class="hidden mt-4 bg-slate-50 p-4 border border-slate-200 rounded-xl">
                         <div id="preview-list" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
                     </div>
                 </div>
 
-                <div class='mb-6 flex flex-wrap items-end gap-6'>
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Soal</label>
-                        <select name='tipe' id='tipe-soal' class="rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-3 font-semibold text-slate-700">
-                            <option value='pilihan_ganda' {{ old('tipe', $data->tipe) !== 'esai' ? 'selected' : '' }}>Pilihan Ganda</option>
-                            <option value='esai' {{ old('tipe', $data->tipe) === 'esai' ? 'selected' : '' }}>Esai (Uraian)</option>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="ui-label">Jenis Soal</label>
+                        <select name="tipe" id="tipe-soal" class="ui-select">
+                            <option value="pilihan_ganda" {{ old('tipe', $data->tipe) !== 'esai' ? 'selected' : '' }}>Pilihan Ganda</option>
+                            <option value="esai" {{ old('tipe', $data->tipe) === 'esai' ? 'selected' : '' }}>Esai (Uraian)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Poin</label>
-                        <input type='number' name='bobot' min='1' max='100' required value='{{ old('bobot', $data->bobot ?? 1) }}' class="w-24 rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-3">
+                        <label class="ui-label">Bobot Poin</label>
+                        <input type="number" name="bobot" min="1" max="100" required value="{{ old('bobot', $data->bobot ?? 1) }}" class="ui-input">
                     </div>
                 </div>
 
-                <div class='mb-8'>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Teks Pertanyaan <span class="text-red-500">*</span></label>
-                    <textarea name='pertanyaan' rows="4" required class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-4">{{ $data->pertanyaan }}</textarea>
+                <div>
+                    <label class="ui-label">Teks Pertanyaan <span class="text-red-500">*</span></label>
+                    <textarea name="pertanyaan" rows="4" required class="ui-textarea">{{ old('pertanyaan', $data->pertanyaan) }}</textarea>
                 </div>
 
-                <div id='pg-section'>
-                <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 mb-8 space-y-5">
-                    <h4 class="font-semibold text-slate-700 text-sm mb-4 border-b border-slate-200 pb-2">Pilihan Ganda</h4>
-                    
-                    <div class='flex items-center gap-4'>
-                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center shrink-0">A</span>
-                        <input type='text' name='opsi_a' value='{{$data->opsi_a}}' required class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                <div id="pg-section" class="space-y-6">
+                    <div class="bg-slate-50/80 p-5 sm:p-6 rounded-2xl border border-slate-200/80 space-y-4">
+                        <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider border-b border-slate-200 pb-2.5">Opsi Pilihan Ganda</h4>
+
+                        @foreach(['A' => 'opsi_a', 'B' => 'opsi_b', 'C' => 'opsi_c', 'D' => 'opsi_d'] as $letter => $field)
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 border border-blue-100 font-extrabold text-xs flex items-center justify-center shrink-0">{{ $letter }}</span>
+                                <input type="text" name="{{ $field }}" value="{{ old($field, $data->$field) }}" required class="ui-input bg-white">
+                            </div>
+                        @endforeach
+
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-xl bg-slate-200 text-slate-700 font-extrabold text-xs flex items-center justify-center shrink-0">E</span>
+                            <input type="text" name="opsi_e" value="{{ old('opsi_e', $data->opsi_e) }}" placeholder="Opsi E (Opsional)" class="ui-input bg-white">
+                        </div>
                     </div>
-                    
-                    <div class='flex items-center gap-4'>
-                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center shrink-0">B</span>
-                        <input type='text' name='opsi_b' value='{{$data->opsi_b}}' required class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                    </div>
-                    
-                    <div class='flex items-center gap-4'>
-                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center shrink-0">C</span>
-                        <input type='text' name='opsi_c' value='{{$data->opsi_c}}' required class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                    </div>
-                    
-                    <div class='flex items-center gap-4'>
-                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center shrink-0">D</span>
-                        <input type='text' name='opsi_d' value='{{$data->opsi_d}}' required class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                    </div>
-                    
-                    <div class='flex items-center gap-4'>
-                        <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center shrink-0">E</span>
-                        <input type='text' name='opsi_e' value='{{$data->opsi_e}}' placeholder="(Opsional)" class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-white">
+
+                    <div class="max-w-xs">
+                        <label class="ui-label">Kunci Jawaban Benar <span class="text-red-500">*</span></label>
+                        <select name="jawaban_benar" required class="ui-select">
+                            @foreach(['A', 'B', 'C', 'D', 'E'] as $opt)
+                                <option value="{{ $opt }}" {{ old('jawaban_benar', $data->jawaban_benar) == $opt ? 'selected' : '' }}>Opsi {{ $opt }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
-                <div class='mb-8'>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Kunci Jawaban <span class="text-red-500">*</span></label>
-                    <select name='jawaban_benar' required class="block w-full md:w-1/3 rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-3 font-semibold text-slate-700">
-                        <option value='A' {{ $data->jawaban_benar=='A'?'selected':'' }}>Jawaban A</option>
-                        <option value='B' {{ $data->jawaban_benar=='B'?'selected':'' }}>Jawaban B</option>
-                        <option value='C' {{ $data->jawaban_benar=='C'?'selected':'' }}>Jawaban C</option>
-                        <option value='D' {{ $data->jawaban_benar=='D'?'selected':'' }}>Jawaban D</option>
-                        <option value='E' {{ $data->jawaban_benar=='E'?'selected':'' }}>Jawaban E</option>
-                    </select>
-                </div>
+                <div id="esai-section" class="hidden space-y-4">
+                    <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3.5 text-xs text-slate-500">
+                        Siswa menjawab dengan teks uraian. Jawaban dikoreksi dan diberi skor oleh guru pada menu Laporan.
+                    </div>
+                    <div>
+                        <label class="ui-label">Pedoman / Kunci Jawaban Esai <span class="text-xs font-normal text-slate-400">(Opsional)</span></label>
+                        <textarea name="pedoman" rows="3" class="ui-textarea">{{ old('pedoman', $data->pedoman) }}</textarea>
+                    </div>
                 </div>
 
-                <div id='esai-section' class='hidden mb-8'>
-                    <div class="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm text-slate-500 mb-4">Siswa menjawab dengan teks panjang (uraian). Jawaban dikoreksi dan diberi skor oleh guru.</div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Pedoman / Kunci Jawaban <span class="text-xs font-normal text-slate-500 ml-1">*Opsional, hanya terlihat oleh guru saat mengoreksi</span></label>
-                    <textarea name='pedoman' rows="3" class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-4">{{ old('pedoman', $data->pedoman) }}</textarea>
-                </div>
-
-                <div class="pt-6 mt-8 border-t border-slate-200 flex justify-end">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 px-10 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 inline-flex items-center transform hover:-translate-y-1">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <div class="pt-5 border-t border-slate-100 flex flex-col-reverse sm:flex-row justify-end gap-3">
+                    <a href="{{ route(auth()->user()->role . '.ujian.show', $ujian_id) }}" class="ui-btn-ghost">Batal</a>
+                    <button type="submit" class="ui-btn-primary px-8">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                         Simpan Perubahan Soal
                     </button>
                 </div>
             </form>
         </div>
     </div>
-</div>
 
-<script>
-    function toggleTipe() {
-        const esai = document.getElementById('tipe-soal').value === 'esai';
-        const pg = document.getElementById('pg-section');
-        const es = document.getElementById('esai-section');
-        pg.classList.toggle('hidden', esai);
-        es.classList.toggle('hidden', !esai);
-        pg.querySelectorAll('input, textarea, select').forEach(el => el.disabled = esai);
-        es.querySelectorAll('input, textarea, select').forEach(el => el.disabled = !esai);
-    }
-    document.getElementById('tipe-soal').addEventListener('change', toggleTipe);
-    toggleTipe();
-
-    let selectedFiles = [];
-    
-    document.getElementById('file-upload').addEventListener('change', function(event) {
-        const files = Array.from(event.target.files);
-        // Calculate max allowed files
-        const currentExisting = document.querySelectorAll('input[name="delete_media[]"]:not(:checked)').length;
-        const total = currentExisting + selectedFiles.length + files.length;
-        if (total > 5) {
-            alert('Maksimal hanya 5 file media yang diperbolehkan per soal secara total.');
-            return;
+    <script>
+        function toggleTipe() {
+            const esai = document.getElementById('tipe-soal').value === 'esai';
+            const pg = document.getElementById('pg-section');
+            const es = document.getElementById('esai-section');
+            pg.classList.toggle('hidden', esai);
+            es.classList.toggle('hidden', !esai);
+            pg.querySelectorAll('input, textarea, select').forEach(el => el.disabled = esai);
+            es.querySelectorAll('input, textarea, select').forEach(el => el.disabled = !esai);
         }
-        
-        files.forEach(file => {
-            selectedFiles.push(file);
+        document.getElementById('tipe-soal').addEventListener('change', toggleTipe);
+        toggleTipe();
+
+        let selectedFiles = [];
+        document.getElementById('file-upload').addEventListener('change', function(event) {
+            const files = Array.from(event.target.files);
+            const currentExisting = document.querySelectorAll('input[name="delete_media[]"]:not(:checked)').length;
+            const total = currentExisting + selectedFiles.length + files.length;
+            if (total > 5) {
+                alert('Maksimal hanya 5 file media yang diperbolehkan per soal secara total.');
+                return;
+            }
+            files.forEach(file => selectedFiles.push(file));
+            renderPreviews();
+            updateFileInput();
         });
-        
-        renderPreviews();
-        updateFileInput();
-    });
 
-    function removeFile(index) {
-        selectedFiles.splice(index, 1);
-        renderPreviews();
-        updateFileInput();
-    }
-
-    function renderPreviews() {
-        const container = document.getElementById('media-preview-container');
-        const list = document.getElementById('preview-list');
-        list.innerHTML = '';
-        
-        if (selectedFiles.length === 0) {
-            container.classList.add('hidden');
-            return;
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            renderPreviews();
+            updateFileInput();
         }
-        
-        container.classList.remove('hidden');
-        
-        selectedFiles.forEach((file, index) => {
-            const fileURL = URL.createObjectURL(file);
-            const isVideo = file.type.startsWith('video/');
-            
-            const div = document.createElement('div');
-            div.className = 'relative group rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white p-2';
-            
-            let mediaHtml = isVideo 
-                ? `<video class="w-full h-32 object-cover rounded" controls><source src="${fileURL}"></video>`
-                : `<img class="w-full h-32 object-cover rounded" src="${fileURL}">`;
-                
-            div.innerHTML = `
-                ${mediaHtml}
-                <button type="button" onclick="removeFile(${index})" style="background-color: #ef4444; color: white;" class="absolute top-2 right-2 hover:bg-red-600 rounded-full p-1.5 shadow-md transition-all z-10" title="Hapus Gambar Ini">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-                <div class="mt-2 text-xs text-center text-slate-600 truncate font-medium bg-slate-100 p-1 rounded">${file.name}</div>
-            `;
-            list.appendChild(div);
-        });
-    }
 
-    function updateFileInput() {
-        const dt = new DataTransfer();
-        selectedFiles.forEach(file => dt.items.add(file));
-        document.getElementById('file-upload').files = dt.files;
-    }
-</script>
+        function renderPreviews() {
+            const container = document.getElementById('media-preview-container');
+            const list = document.getElementById('preview-list');
+            list.innerHTML = '';
+            if (selectedFiles.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+            selectedFiles.forEach((file, index) => {
+                const fileURL = URL.createObjectURL(file);
+                const isVideo = file.type.startsWith('video/');
+                const div = document.createElement('div');
+                div.className = 'relative group rounded-xl overflow-hidden border border-slate-200 bg-white p-2';
+                let mediaHtml = isVideo
+                    ? `<video class="w-full h-32 object-cover rounded-lg" controls><source src="${fileURL}"></video>`
+                    : `<img class="w-full h-32 object-cover rounded-lg" src="${fileURL}">`;
+                div.innerHTML = `
+                    ${mediaHtml}
+                    <button type="button" onclick="removeFile(${index})" class="absolute top-3 right-3 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 shadow-md transition z-10" title="Hapus">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <div class="mt-2 text-xs text-center text-slate-600 truncate font-medium bg-slate-100 p-1 rounded">${file.name}</div>
+                `;
+                list.appendChild(div);
+            });
+        }
 
+        function updateFileInput() {
+            const dt = new DataTransfer();
+            selectedFiles.forEach(file => dt.items.add(file));
+            document.getElementById('file-upload').files = dt.files;
+        }
+    </script>
 </x-app-layout>

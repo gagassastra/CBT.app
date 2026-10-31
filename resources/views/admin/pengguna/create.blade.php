@@ -1,12 +1,28 @@
-﻿<x-app-layout>
-<x-slot name="header"><h2 class="font-bold text-2xl text-slate-800 leading-tight tracking-tight">Panel Utama</h2></x-slot>
-<div class='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 bg-white mt-8 p-8 rounded-[2rem] shadow-xl shadow-slate-200/40 border border-slate-100'>
-<form action='{{ route('admin.pengguna.store') }}' method='POST'>
-@csrf
-<div class='mb-4'><label>Nama</label><input type='text' name='name' class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-b border-slate-100/80lue-500 focus:ring-blue-500 sm:text-sm"></div>
-<div class='mb-4'><label>Email</label><input type='email' name='email' class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-b border-slate-100/80lue-500 focus:ring-blue-500 sm:text-sm"></div>
-<div class='mb-4'><label>Password</label><input type='password' name='password' class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-b border-slate-100/80lue-500 focus:ring-blue-500 sm:text-sm"></div>
-<div class='mb-4'><label>Role</label><select name='role' class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-b border-slate-100/80lue-500 focus:ring-blue-500 sm:text-sm"><option value='admin'>Admin</option><option value='guru'>Guru</option></select></div>
-<button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded shadow-sm transition-all">Simpan</button>
-</form></div>
+<x-app-layout>
+    <x-form-card
+        title="Tambah Pengguna Baru"
+        subtitle="Daftarkan akun Administrator atau Guru pengajar baru ke dalam sistem."
+        :back="route('admin.pengguna.index')"
+        :action="route('admin.pengguna.store')"
+        submit="Simpan Pengguna"
+    >
+        <x-field label="Nama Lengkap" name="name" :full="true" :required="true">
+            <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus placeholder="Nama lengkap beserta gelar..." class="ui-input">
+        </x-field>
+
+        <x-field label="Alamat Email" name="email" :required="true" hint="Digunakan sebagai username saat login.">
+            <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="nama@alqudwah.sch.id" class="ui-input">
+        </x-field>
+
+        <x-field label="Peran / Hak Akses" name="role" :required="true">
+            <select id="role" name="role" class="ui-select">
+                <option value="guru" {{ old('role') === 'guru' ? 'selected' : '' }}>Guru Pengajar</option>
+                <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Administrator</option>
+            </select>
+        </x-field>
+
+        <x-field label="Kata Sandi" name="password" :full="true" :required="true" hint="Minimal 6 karakter.">
+            <input type="password" id="password" name="password" required placeholder="Masukkan kata sandi..." class="ui-input">
+        </x-field>
+    </x-form-card>
 </x-app-layout>

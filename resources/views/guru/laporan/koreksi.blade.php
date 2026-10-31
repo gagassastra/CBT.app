@@ -1,23 +1,31 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-2xl text-slate-800 leading-tight tracking-tight">Koreksi Soal Esai</h2>
-    </x-slot>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div>
+            <a href="{{ route(auth()->user()->role . '.laporan.show', $ujian->id) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                Kembali ke Detail Nilai Ujian
+            </a>
+        </div>
 
-    <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <a href="{{ route(auth()->user()->role . '.laporan.show', $ujian->id) }}" class="text-slate-500 hover:text-blue-600 text-sm font-semibold mb-3 inline-block">&larr; Kembali ke Detail Nilai</a>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
-            <h1 class="text-2xl font-extrabold text-slate-900">{{ $ujian->nama_ujian }}</h1>
-            <p class="text-slate-500 mt-1 text-sm">Siswa: <span class="font-semibold text-slate-700">{{ $peserta->siswa->name ?? 'Siswa' }}</span>
-                @if($peserta->hasilUjian)
-                    &nbsp;|&nbsp; Nilai saat ini: <span class="font-bold text-blue-600">{{ number_format($peserta->hasilUjian->nilai_akhir, 0) }}</span>
-                @endif
-            </p>
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Penilaian Jawaban Uraian</span>
+                <h1 class="text-2xl font-extrabold text-slate-900 mt-1">{{ $ujian->nama_ujian }}</h1>
+                <p class="text-slate-500 mt-1 text-sm">
+                    Peserta: <strong class="text-slate-800">{{ $peserta->siswa->name ?? 'Siswa' }}</strong>
+                </p>
+            </div>
+            @if($peserta->hasilUjian)
+                <div class="bg-blue-50 border border-blue-100 rounded-2xl px-5 py-3 text-center shrink-0">
+                    <span class="block text-[11px] font-bold uppercase tracking-wider text-blue-600">Nilai Akhir Saat Ini</span>
+                    <span class="text-2xl font-extrabold text-blue-700">{{ number_format($peserta->hasilUjian->nilai_akhir, 0) }}</span>
+                </div>
+            @endif
         </div>
 
         @if($errors->any())
-            <div class="mb-6 p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl">
-                <ul class="list-disc pl-5 text-sm">
+            <div class="p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl">
+                <ul class="list-disc pl-5 text-xs space-y-0.5">
                     @foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach
                 </ul>
             </div>
@@ -27,42 +35,56 @@
             @csrf
             @forelse($soals as $no => $soal)
                 @php $jawab = $jawabans->get($soal->id); @endphp
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="bg-purple-100 text-purple-800 text-xs font-extrabold px-3 py-1 rounded-full">Esai {{ $no + 1 }}</span>
-                        <span class="text-xs text-slate-500">Poin maksimal: <b>{{ $soal->bobot ?? 1 }}</b></span>
+                <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-6 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <span class="bg-purple-50 text-purple-700 border border-purple-200 text-xs font-extrabold px-3 py-1 rounded-lg">
+                            Soal Esai #{{ $no + 1 }}
+                        </span>
+                        <span class="text-xs font-semibold text-slate-500">
+                            Bobot Maksimal: <strong class="text-slate-800">{{ $soal->bobot ?? 1 }} Poin</strong>
+                        </span>
                     </div>
-                    <p class="text-slate-800 font-medium whitespace-pre-line">{{ $soal->pertanyaan }}</p>
+
+                    <p class="text-slate-800 font-semibold text-base whitespace-pre-line">{{ $soal->pertanyaan }}</p>
 
                     @if($soal->pedoman)
-                        <div class="mt-3 text-sm bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-3">
-                            <b>Pedoman:</b> <span class="whitespace-pre-line">{{ $soal->pedoman }}</span>
+                        <div class="text-xs bg-amber-50/80 border border-amber-200 text-amber-900 rounded-xl p-3.5">
+                            <strong class="block mb-0.5">Pedoman / Kunci Jawaban:</strong>
+                            <span class="whitespace-pre-line">{{ $soal->pedoman }}</span>
                         </div>
                     @endif
 
-                    <div class="mt-4">
-                        <p class="text-xs font-semibold text-slate-500 mb-1">Jawaban siswa</p>
+                    <div class="pt-1">
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Jawaban Siswa</p>
                         @if($jawab && trim((string) $jawab->jawaban) !== '')
-                            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 whitespace-pre-line break-words">{{ $jawab->jawaban }}</div>
-                            <div class="mt-4 flex items-center gap-3">
-                                <label class="text-sm font-semibold text-slate-700">Skor</label>
+                            <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-4 text-sm text-slate-800 whitespace-pre-line break-words leading-relaxed">{{ $jawab->jawaban }}</div>
+                            <div class="mt-4 flex flex-wrap items-center gap-3 bg-blue-50/50 p-3.5 rounded-xl border border-blue-100">
+                                <label class="text-sm font-bold text-slate-700">Berikan Skor:</label>
                                 <input type="number" name="skor[{{ $jawab->id }}]" min="0" max="{{ $soal->bobot ?? 1 }}" step="0.5"
                                     value="{{ old('skor.' . $jawab->id, $jawab->skor) }}" placeholder="0 - {{ $soal->bobot ?? 1 }}"
-                                    class="w-28 rounded-lg border-slate-300 text-sm focus:border-blue-500 focus:ring-blue-500">
-                                <span class="text-xs text-slate-400">Kosongkan bila belum dinilai</span>
+                                    class="ui-input w-32 bg-white">
+                                <span class="text-xs text-slate-500">dari maksimal <strong>{{ $soal->bobot ?? 1 }}</strong> poin</span>
                             </div>
                         @else
-                            <div class="text-sm italic text-slate-400">Tidak dijawab (skor 0)</div>
+                            <div class="text-sm italic text-slate-400 bg-slate-50 border border-dashed border-slate-200 rounded-xl p-4">
+                                Siswa tidak mengisi jawaban pada soal ini (Skor otomatis 0).
+                            </div>
                         @endif
                     </div>
                 </div>
             @empty
-                <div class="bg-white rounded-xl border border-dashed border-slate-300 p-10 text-center text-slate-500">Ujian ini tidak memiliki soal esai.</div>
+                <div class="bg-white rounded-2xl border border-dashed border-slate-300 p-12 text-center text-slate-500">
+                    Ujian ini tidak memiliki butir soal esai.
+                </div>
             @endforelse
 
             @if($soals->count())
-                <div class="flex justify-end pt-2">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-md transition">Simpan Koreksi</button>
+                <div class="flex justify-end gap-3 pt-2">
+                    <a href="{{ route(auth()->user()->role . '.laporan.show', $ujian->id) }}" class="ui-btn-ghost">Batal</a>
+                    <button type="submit" class="ui-btn-primary px-8">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Simpan Hasil Koreksi
+                    </button>
                 </div>
             @endif
         </form>
