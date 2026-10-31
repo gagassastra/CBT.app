@@ -7,7 +7,8 @@ use App\Models\Ujian;
 
 class SoalController extends Controller {
     public function create($ujian_id) {
-        return view('guru.soal.create', compact('ujian_id'));
+        $jumlahSoal = Soal::where('ujian_id', $ujian_id)->count();
+        return view('guru.soal.create', compact('ujian_id', 'jumlahSoal'));
     }
 
     /**
@@ -26,14 +27,15 @@ class SoalController extends Controller {
             'soal.*.opsi_d' => 'required',
             'soal.*.opsi_e' => 'nullable',
             'soal.*.jawaban_benar' => 'required|in:A,B,C,D,E',
-        ], [], $this->attributeNames($request->input('soal', [])));
+        ], [], $this->attributeNames($request->input('soal', []), Soal::where('ujian_id', $ujian_id)->count()));
 
         $items = $request->input('soal');
+        $offset = Soal::where('ujian_id', $ujian_id)->count();
 
         // Kunci jawaban E hanya valid bila opsi E diisi
         foreach (array_keys($items) as $pos => $key) {
             if (($items[$key]['jawaban_benar'] ?? null) === 'E' && trim($items[$key]['opsi_e'] ?? '') === '') {
-                return back()->withInput()->withErrors(['soal' => 'Soal ke-' . ($pos + 1) . ': kunci jawaban E dipilih tetapi opsi E kosong.']);
+                return back()->withInput()->withErrors(['soal' => 'Soal ke-' . ($offset + $pos + 1) . ': kunci jawaban E dipilih tetapi opsi E kosong.']);
             }
         }
 
@@ -62,7 +64,7 @@ class SoalController extends Controller {
         return redirect()->route(auth()->user()->role . '.ujian.show', $ujian_id)->with('success', count($items) . ' soal berhasil ditambahkan');
     }
 
-    private function attributeNames(array $items): array {
+    private function attributeNames(array $items, int $offset = 0): array {
         $names = [];
         $fields = [
             'pertanyaan' => 'pertanyaan',
@@ -73,7 +75,7 @@ class SoalController extends Controller {
         ];
         foreach (array_keys($items) as $pos => $key) {
             foreach ($fields as $field => $label) {
-                $names["soal.$key.$field"] = $label . ' soal ke-' . ($pos + 1);
+                $names["soal.$key.$field"] = $label . ' soal ke-' . ($offset + $pos + 1);
             }
         }
         return $names;

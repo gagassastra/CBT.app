@@ -27,7 +27,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 border-t-8 border-t-blue-600 p-6 mb-4">
             <h3 class="text-2xl font-bold text-slate-800">Daftar Soal</h3>
             <p class="text-sm text-slate-500 mt-1">Tambahkan sebanyak mungkin soal dalam satu halaman, lalu simpan sekaligus. Pilih kunci jawaban dengan menandai tombol bulat di samping opsi.</p>
-            <p class="text-sm text-slate-600 mt-3 font-semibold">Total: <span id="total-soal">0</span> soal</p>
+            <p class="text-sm text-slate-600 mt-3 font-semibold">Soal baru: <span id="total-soal">0</span> &middot; Sudah ada: {{ $jumlahSoal }} soal</p>
         </div>
 
         <div id="soal-list" class="space-y-4"></div>
@@ -110,6 +110,7 @@
     const list = document.getElementById('soal-list');
     const tpl = document.getElementById('soal-template').innerHTML;
     const MAX_MEDIA = 5;
+    const START = @json((int) $jumlahSoal); // jumlah soal yang sudah ada pada ujian ini
     let counter = 0;
     const filesByKey = {}; // key -> File[]
 
@@ -148,7 +149,7 @@
 
     function renumber() {
         const cards = list.querySelectorAll('.soal-card');
-        cards.forEach((c, i) => { q(c, '.soal-number').textContent = 'Soal #' + (i + 1); });
+        cards.forEach((c, i) => { q(c, '.soal-number').textContent = 'Soal #' + (START + i + 1); });
         document.getElementById('total-soal').textContent = cards.length;
     }
 
