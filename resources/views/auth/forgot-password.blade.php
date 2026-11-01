@@ -20,6 +20,9 @@
             <x-input-label for="email" :value="__('Alamat Email Akun')" />
             <x-text-input id="email" type="email" name="email" :value="old('email')" required autofocus placeholder="nama@email.com" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <p class="mt-2 text-xs text-slate-500 leading-relaxed">
+                Tautan untuk membuat kata sandi baru akan dikirim ke <strong>pesan email</strong> tersebut. Siswa yang belum memiliki email silakan menghubungi administrator sekolah.
+            </p>
         </div>
 
         <div class="flex flex-col gap-3 pt-2">

@@ -53,6 +53,14 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Kirim tautan reset kata sandi ke email pengguna (berbahasa Indonesia).
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new \App\Notifications\ResetPasswordNotification($token));
+    }
+
     public function kelas() {
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
