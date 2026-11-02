@@ -1,24 +1,25 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <!-- Page Header -->
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-slate-200/80 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-            <div>
-                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">
+        <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 rounded-2xl p-6 sm:p-8 shadow-lg shadow-indigo-950/10 border border-indigo-500/20 text-white flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div class="absolute -right-12 -top-12 w-56 h-56 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold uppercase tracking-wider text-cyan-300 mb-2.5">
                     <span>Data Master</span>
                     <span>&bull;</span>
                     <span>Peserta Didik</span>
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Manajemen Data Siswa</h1>
-                <p class="text-slate-500 text-sm mt-1">Kelola data peserta ujian, impor massal via CSV, dan cetak kartu peserta ujian sekolah.</p>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Manajemen Data Siswa</h1>
+                <p class="text-blue-100/80 text-sm mt-1">Kelola data peserta ujian, impor massal via CSV, dan cetak kartu peserta ujian sekolah.</p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-2.5">
-                <a href="{{ route('admin.siswa.export') }}" class="ui-btn-secondary text-xs sm:text-sm">
-                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <div class="relative z-10 flex flex-wrap items-center gap-2.5">
+                <a href="{{ route('admin.siswa.export') }}" class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 px-4 py-2.5 text-xs sm:text-sm font-bold text-white backdrop-blur-sm transition">
+                    <svg class="w-4 h-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     Template CSV
                 </a>
 
-                <a href="{{ route('admin.siswa.kartu_semua') }}" target="_blank" class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm shadow-emerald-600/20 transition">
+                <a href="{{ route('admin.siswa.kartu_semua') }}" target="_blank" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-emerald-950/30 transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                     Cetak Semua Kartu
                 </a>
@@ -38,14 +39,14 @@
         @endif
 
         <!-- Search & CSV Import Toolbar -->
-        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-xs border border-slate-200/80 flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+        <div class="bg-gradient-to-r from-white via-indigo-50/40 to-blue-50/40 p-4 sm:p-5 rounded-2xl shadow-sm border border-indigo-100 flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
             <!-- Live Search -->
             <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-1 gap-2" onsubmit="event.preventDefault();">
                 <div class="relative flex-1 max-w-md">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                        <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <svg class="h-4 w-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Cari nama siswa..." class="ui-input pl-10" oninput="searchSiswa(this.value)">
+                    <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Cari nama siswa..." class="ui-input pl-10 bg-white" oninput="searchSiswa(this.value)">
                 </div>
                 @if(request('search'))
                     <a href="{{ route('admin.siswa.index') }}" class="ui-btn-ghost px-3.5 py-2 text-xs">Reset</a>
@@ -53,31 +54,31 @@
             </form>
 
             <!-- Import CSV Box -->
-            <div class="flex flex-wrap sm:flex-nowrap items-center justify-between lg:justify-end gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-100">
-                <form action="{{ route('admin.siswa.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2 bg-slate-50 border border-slate-200/90 px-3 py-1.5 rounded-xl">
+            <div class="flex flex-wrap sm:flex-nowrap items-center justify-between lg:justify-end gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-indigo-100">
+                <form action="{{ route('admin.siswa.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2 bg-white border border-indigo-200/80 px-3 py-1.5 rounded-xl shadow-2xs">
                     @csrf
-                    <input type="file" name="file" accept=".csv" required class="text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer max-w-[190px]">
-                    <button type="submit" class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition shrink-0">
+                    <input type="file" name="file" accept=".csv" required class="text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer max-w-[190px]">
+                    <button type="submit" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs transition shrink-0">
                         Import CSV
                     </button>
                 </form>
 
-                <div class="px-3 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-100 shrink-0" id="total-siswa">
+                <div class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-indigo-600 text-white shadow-2xs shrink-0" id="total-siswa">
                     Total: {{ $data->count() }} Siswa
                 </div>
             </div>
         </div>
 
         <!-- Table Card -->
-        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden" id="table-container">
+        <div class="bg-white rounded-2xl shadow-md shadow-indigo-950/5 border border-indigo-100 overflow-hidden" id="table-container">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-slate-200/80 text-sm">
-                    <thead class="bg-slate-50/80">
+                <table class="min-w-full divide-y divide-indigo-100 text-sm">
+                    <thead class="bg-indigo-50/60">
                         <tr>
-                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Nama Siswa</th>
-                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">NISN (Username)</th>
-                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Kelas</th>
-                            <th class="px-6 py-3.5 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-3.5 text-left text-xs font-extrabold text-indigo-950 uppercase tracking-wider">Nama Siswa</th>
+                            <th class="px-6 py-3.5 text-left text-xs font-extrabold text-indigo-950 uppercase tracking-wider">NISN (Username)</th>
+                            <th class="px-6 py-3.5 text-left text-xs font-extrabold text-indigo-950 uppercase tracking-wider">Kelas</th>
+                            <th class="px-6 py-3.5 text-right text-xs font-extrabold text-indigo-950 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 bg-white">

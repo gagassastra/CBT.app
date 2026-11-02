@@ -39,49 +39,52 @@
                 ->count();
         @endphp
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/80 flex items-center justify-between hover:shadow-md transition">
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Ujian Anda</p>
-                    <h3 class="text-3xl font-extrabold text-slate-900 mt-1">{{ $ujian }}</h3>
-                    <p class="text-xs text-slate-500 mt-1">Jadwal ujian terdaftar</p>
+            <div class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl p-6 text-white shadow-lg shadow-blue-600/20 flex items-center justify-between hover:-translate-y-0.5 hover:shadow-xl transition duration-200">
+                <div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <p class="text-xs font-bold uppercase tracking-wider text-blue-100">Total Ujian Anda</p>
+                    <h3 class="text-3xl font-extrabold text-white mt-1">{{ $ujian }}</h3>
+                    <p class="text-xs text-cyan-200 font-medium mt-1">Jadwal ujian terdaftar</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0">
+                <div class="relative z-10 w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md text-white border border-white/20 flex items-center justify-center shrink-0">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/80 flex items-center justify-between hover:shadow-md transition">
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Butir Soal</p>
-                    <h3 class="text-3xl font-extrabold text-slate-900 mt-1">{{ $soal }}</h3>
-                    <p class="text-xs text-slate-500 mt-1">Pilihan ganda & esai</p>
+            <div class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-800 rounded-2xl p-6 text-white shadow-lg shadow-indigo-600/20 flex items-center justify-between hover:-translate-y-0.5 hover:shadow-xl transition duration-200">
+                <div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <p class="text-xs font-bold uppercase tracking-wider text-indigo-100">Total Butir Soal</p>
+                    <h3 class="text-3xl font-extrabold text-white mt-1">{{ $soal }}</h3>
+                    <p class="text-xs text-purple-200 font-medium mt-1">Pilihan ganda & esai</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center shrink-0">
+                <div class="relative z-10 w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md text-white border border-white/20 flex items-center justify-center shrink-0">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/80 flex items-center justify-between hover:shadow-md transition">
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Ujian Sedang Aktif</p>
-                    <h3 class="text-3xl font-extrabold text-slate-900 mt-1">{{ $ujian_aktif }}</h3>
-                    <p class="text-xs text-slate-500 mt-1">Berlangsung saat ini</p>
+            <div class="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-800 rounded-2xl p-6 text-white shadow-lg shadow-emerald-600/20 flex items-center justify-between hover:-translate-y-0.5 hover:shadow-xl transition duration-200">
+                <div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <p class="text-xs font-bold uppercase tracking-wider text-emerald-100">Ujian Sedang Aktif</p>
+                    <h3 class="text-3xl font-extrabold text-white mt-1">{{ $ujian_aktif }}</h3>
+                    <p class="text-xs text-teal-100 font-medium mt-1">Berlangsung saat ini</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
+                <div class="relative z-10 w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md text-white border border-white/20 flex items-center justify-center shrink-0">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
             </div>
         </div>
 
         <!-- Call to Action Card -->
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-6">
+        <div class="bg-gradient-to-r from-white via-indigo-50/60 to-blue-100/60 rounded-2xl p-6 sm:p-8 shadow-md shadow-indigo-950/5 border border-indigo-200/80 flex flex-col sm:flex-row justify-between items-center gap-6">
             <div class="flex items-start gap-4">
-                <div class="hidden sm:flex w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 items-center justify-center shrink-0">
+                <div class="hidden sm:flex w-13 h-13 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-indigo-500/20 items-center justify-center shrink-0 p-3">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                 </div>
                 <div>
                     <h3 class="text-lg font-extrabold text-slate-900">Kelola Jadwal Ujian & Bank Soal</h3>
-                    <p class="text-sm text-slate-500 mt-1">Susun soal baru dengan dukungan gambar/video atau periksa hasil pengerjaan ujian siswa.</p>
+                    <p class="text-sm text-slate-600 mt-1">Susun soal baru dengan dukungan gambar/video atau periksa hasil pengerjaan ujian siswa.</p>
                 </div>
             </div>
             <div class="flex flex-wrap gap-3 w-full sm:w-auto">

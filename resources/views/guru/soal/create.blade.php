@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div>
-            <a href="{{ route(auth()->user()->role . '.ujian.show', $ujian_id) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+            <a href="{{ route(auth()->user()->role . '.ujian.show', $ujian_id) }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/80 border border-indigo-200/80 text-sm font-bold text-indigo-700 hover:bg-indigo-50 transition shadow-2xs">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Kembali ke Daftar Soal Ujian
             </a>
@@ -23,17 +23,18 @@
             @csrf
 
             <!-- Builder Header Card -->
-            <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-6 sm:p-8 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                    <div class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">Editor Bank Soal</div>
-                    <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Tambah Butir Soal Sekaligus</h1>
-                    <p class="text-sm text-slate-500 mt-1">Tambahkan satu atau beberapa soal dalam satu halaman, lalu simpan sekaligus. Tandai tombol bulat di samping opsi sebagai kunci jawaban benar.</p>
+            <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 rounded-2xl shadow-lg shadow-indigo-950/10 border border-indigo-500/20 p-6 sm:p-8 mb-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-400/15 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold uppercase tracking-wider text-cyan-300 mb-2">Editor Bank Soal</div>
+                    <h1 class="text-2xl font-extrabold text-white tracking-tight">Tambah Butir Soal Sekaligus</h1>
+                    <p class="text-sm text-blue-100/80 mt-1">Tambahkan satu atau beberapa soal dalam satu halaman, lalu simpan sekaligus. Tandai tombol bulat di samping opsi sebagai kunci jawaban benar.</p>
                 </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    <span class="px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 border border-blue-100 text-xs font-bold">
+                <div class="relative z-10 flex items-center gap-2 shrink-0">
+                    <span class="px-3.5 py-1.5 rounded-xl bg-cyan-400/20 text-cyan-200 border border-cyan-300/30 text-xs font-bold">
                         Soal Baru: <span id="total-soal">0</span>
                     </span>
-                    <span class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold">
+                    <span class="px-3.5 py-1.5 rounded-xl bg-white/10 text-blue-100 border border-white/15 text-xs font-bold">
                         Tersimpan: {{ $jumlahSoal }}
                     </span>
                 </div>

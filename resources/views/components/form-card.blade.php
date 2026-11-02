@@ -3,23 +3,27 @@
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
     @if($back)
         <div class="mb-4">
-            <a href="{{ $back }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+            <a href="{{ $back }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/80 border border-indigo-200/80 text-sm font-bold text-indigo-700 hover:bg-indigo-50 hover:text-indigo-900 shadow-2xs transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Kembali ke Daftar
             </a>
         </div>
     @endif
 
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
-        <div class="px-6 sm:px-8 py-6 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white flex items-center justify-between">
-            <div>
-                <h1 class="text-xl font-extrabold text-slate-900 tracking-tight">{{ $title }}</h1>
+    <div class="bg-gradient-to-b from-white via-white to-indigo-50/40 rounded-2xl shadow-md shadow-indigo-950/5 border border-indigo-100 overflow-hidden">
+        <div class="relative overflow-hidden px-6 sm:px-8 py-6 bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 text-white flex items-center justify-between">
+            <div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-cyan-400/15 blur-2xl pointer-events-none"></div>
+            <div class="relative z-10">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/15 text-cyan-200 border border-white/15 mb-2">
+                    Formulir Data Sistem
+                </span>
+                <h1 class="text-xl font-extrabold text-white tracking-tight">{{ $title }}</h1>
                 @if($subtitle)
-                    <p class="text-sm text-slate-500 mt-1">{{ $subtitle }}</p>
+                    <p class="text-sm text-blue-100/85 mt-1">{{ $subtitle }}</p>
                 @endif
             </div>
-            <div class="hidden sm:flex w-11 h-11 rounded-xl bg-blue-50 text-blue-600 items-center justify-center border border-blue-100 shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            <div class="relative z-10 hidden sm:flex w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md text-cyan-300 items-center justify-center border border-white/20 shrink-0 shadow-inner">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
             </div>
         </div>
 
@@ -30,7 +34,7 @@
             @endif
 
             @if($errors->any())
-                <div class="mb-6 rounded-xl border border-red-200 bg-red-50/80 px-4 py-3.5 text-sm text-red-700">
+                <div class="mb-6 rounded-xl border border-red-200 bg-red-50/90 px-4 py-3.5 text-sm text-red-700">
                     <div class="flex items-center gap-2 font-bold mb-1">
                         <svg class="w-4 h-4 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Periksa kembali isian formulir Anda:
@@ -47,7 +51,7 @@
                 {{ $slot }}
             </div>
 
-            <div class="mt-8 pt-5 border-t border-slate-100 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+            <div class="mt-8 pt-5 border-t border-indigo-100/80 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                 @if($back)
                     <a href="{{ $back }}" class="ui-btn-ghost">Batal</a>
                 @endif

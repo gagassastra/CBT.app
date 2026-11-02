@@ -1,20 +1,24 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div>
-            <a href="{{ route(auth()->user()->role . '.ujian.show', $ujian_id) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+            <a href="{{ route(auth()->user()->role . '.ujian.show', $ujian_id) }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/80 border border-indigo-200/80 text-sm font-bold text-indigo-700 hover:bg-indigo-50 transition shadow-2xs">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Kembali ke Daftar Soal Ujian
             </a>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
-            <div class="bg-gradient-to-r from-slate-50 to-white px-6 sm:px-8 py-6 border-b border-slate-100 flex items-center justify-between">
-                <div>
-                    <h1 class="text-xl font-extrabold text-slate-900 tracking-tight">Perbarui Butir Soal</h1>
-                    <p class="text-sm text-slate-500 mt-1">Ubah teks pertanyaan, lampiran media, opsi pilihan ganda, atau kunci jawaban.</p>
+        <div class="bg-gradient-to-b from-white via-white to-indigo-50/40 rounded-2xl shadow-md shadow-indigo-950/5 border border-indigo-100 overflow-hidden">
+            <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 px-6 sm:px-8 py-6 text-white flex items-center justify-between">
+                <div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-cyan-400/15 blur-2xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/15 text-cyan-200 border border-white/15 mb-2">
+                        Editor Bank Soal
+                    </span>
+                    <h1 class="text-xl font-extrabold text-white tracking-tight">Perbarui Butir Soal</h1>
+                    <p class="text-sm text-blue-100/85 mt-1">Ubah teks pertanyaan, lampiran media, opsi pilihan ganda, atau kunci jawaban.</p>
                 </div>
-                <div class="hidden sm:flex w-11 h-11 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                <div class="relative z-10 hidden sm:flex w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md text-cyan-300 border border-white/20 items-center justify-center shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                 </div>
             </div>
 

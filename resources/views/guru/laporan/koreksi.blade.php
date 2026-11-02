@@ -1,24 +1,25 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div>
-            <a href="{{ route(auth()->user()->role . '.laporan.show', $ujian->id) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+            <a href="{{ route(auth()->user()->role . '.laporan.show', $ujian->id) }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/80 border border-indigo-200/80 text-sm font-bold text-indigo-700 hover:bg-indigo-50 transition shadow-2xs">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Kembali ke Detail Nilai Ujian
             </a>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Penilaian Jawaban Uraian</span>
-                <h1 class="text-2xl font-extrabold text-slate-900 mt-1">{{ $ujian->nama_ujian }}</h1>
-                <p class="text-slate-500 mt-1 text-sm">
-                    Peserta: <strong class="text-slate-800">{{ $peserta->siswa->name ?? 'Siswa' }}</strong>
+        <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 rounded-2xl shadow-lg shadow-indigo-950/10 border border-indigo-500/20 p-6 sm:p-8 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-violet-500/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="relative z-10">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold uppercase tracking-wider text-cyan-300 mb-2">Penilaian Jawaban Uraian</span>
+                <h1 class="text-2xl font-extrabold text-white mt-0.5">{{ $ujian->nama_ujian }}</h1>
+                <p class="text-blue-100/85 mt-1 text-sm">
+                    Peserta: <strong class="text-white">{{ $peserta->siswa->name ?? 'Siswa' }}</strong>
                 </p>
             </div>
             @if($peserta->hasilUjian)
-                <div class="bg-blue-50 border border-blue-100 rounded-2xl px-5 py-3 text-center shrink-0">
-                    <span class="block text-[11px] font-bold uppercase tracking-wider text-blue-600">Nilai Akhir Saat Ini</span>
-                    <span class="text-2xl font-extrabold text-blue-700">{{ number_format($peserta->hasilUjian->nilai_akhir, 0) }}</span>
+                <div class="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-6 py-3.5 text-center shrink-0">
+                    <span class="block text-[11px] font-bold uppercase tracking-wider text-cyan-200">Nilai Akhir Saat Ini</span>
+                    <span class="text-2xl font-extrabold text-white">{{ number_format($peserta->hasilUjian->nilai_akhir, 0) }}</span>
                 </div>
             @endif
         </div>

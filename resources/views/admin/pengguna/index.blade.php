@@ -1,17 +1,18 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <!-- Page Header -->
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-slate-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">
+        <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 rounded-2xl p-6 sm:p-8 shadow-lg shadow-indigo-950/10 border border-indigo-500/20 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="absolute -right-12 -top-12 w-48 h-48 bg-violet-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold uppercase tracking-wider text-cyan-300 mb-2.5">
                     <span>Manajemen Akses</span>
                     <span>&bull;</span>
                     <span>Staf & Pengajar</span>
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Data Pengguna Sistem</h1>
-                <p class="text-slate-500 text-sm mt-1">Kelola akun Administrator dan Guru pengajar di lingkungan PKBM AL-QUDWAH.</p>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Data Pengguna Sistem</h1>
+                <p class="text-blue-100/80 text-sm mt-1">Kelola akun Administrator dan Guru pengajar di lingkungan PKBM AL-QUDWAH.</p>
             </div>
-            <a href="{{ route('admin.pengguna.create') }}" class="ui-btn-primary shrink-0">
+            <a href="{{ route('admin.pengguna.create') }}" class="relative z-10 ui-btn-primary shrink-0">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                 Tambah Pengguna
             </a>
@@ -25,20 +26,20 @@
         @endif
 
         <!-- Table Card -->
-        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Daftar Akun Admin & Guru</span>
-                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-100">Total: {{ $data->count() }} Akun</span>
+        <div class="bg-white rounded-2xl shadow-md shadow-indigo-950/5 border border-indigo-100 overflow-hidden">
+            <div class="px-6 py-4 border-b border-indigo-100 bg-gradient-to-r from-indigo-50/90 via-blue-50/60 to-white flex items-center justify-between">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-900">Daftar Akun Admin & Guru</span>
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-600 text-white shadow-2xs">Total: {{ $data->count() }} Akun</span>
             </div>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-slate-200/80">
-                    <thead class="bg-slate-50/80">
+                <table class="min-w-full divide-y divide-indigo-100">
+                    <thead class="bg-indigo-50/50">
                         <tr>
-                            <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider w-16">No</th>
-                            <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Nama Lengkap</th>
-                            <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Alamat Email</th>
-                            <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Hak Akses (Role)</th>
-                            <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-slate-500 uppercase tracking-wider w-48">Aksi</th>
+                            <th scope="col" class="px-6 py-3.5 text-left text-xs font-extrabold text-indigo-950 uppercase tracking-wider w-16">No</th>
+                            <th scope="col" class="px-6 py-3.5 text-left text-xs font-extrabold text-indigo-950 uppercase tracking-wider">Nama Lengkap</th>
+                            <th scope="col" class="px-6 py-3.5 text-left text-xs font-extrabold text-indigo-950 uppercase tracking-wider">Alamat Email</th>
+                            <th scope="col" class="px-6 py-3.5 text-left text-xs font-extrabold text-indigo-950 uppercase tracking-wider">Hak Akses (Role)</th>
+                            <th scope="col" class="px-6 py-3.5 text-right text-xs font-extrabold text-indigo-950 uppercase tracking-wider w-48">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 bg-white">

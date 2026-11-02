@@ -2,32 +2,33 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <!-- Back Navigation -->
         <div>
-            <a href="{{ route(auth()->user()->role . '.ujian.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+            <a href="{{ route(auth()->user()->role . '.ujian.index') }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/80 border border-indigo-200/80 text-sm font-bold text-indigo-700 hover:bg-indigo-50 transition shadow-2xs">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Kembali ke Daftar Ujian
             </a>
         </div>
 
         <!-- Exam Summary Card -->
-        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-6 sm:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
-            <div>
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                    <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 text-xs font-bold">
+        <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 rounded-2xl shadow-lg shadow-indigo-950/10 border border-indigo-500/20 p-6 sm:p-8 text-white flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+            <div class="absolute -right-12 -top-12 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10">
+                <div class="flex flex-wrap items-center gap-2 mb-2.5">
+                    <span class="px-3 py-1 rounded-full bg-cyan-400/20 text-cyan-200 border border-cyan-300/30 text-xs font-bold">
                         {{ $ujian->mataPelajaran->nama_pelajaran ?? 'Mata Pelajaran' }}
                     </span>
-                    <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">
+                    <span class="px-3 py-1 rounded-full bg-white/10 text-blue-100 border border-white/15 text-xs font-bold">
                         Kelas: {{ $ujian->kelas->nama_kelas ?? '-' }}
                     </span>
-                    <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-bold">
+                    <span class="px-3 py-1 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30 text-xs font-bold">
                         Durasi: {{ $ujian->durasi }} Menit
                     </span>
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">{{ $ujian->nama_ujian }}</h1>
-                <p class="text-slate-500 mt-1 text-sm">
-                    Total Terdaftar: <strong class="text-slate-800">{{ count($ujian->soals) }} Butir Soal</strong>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{{ $ujian->nama_ujian }}</h1>
+                <p class="text-blue-200/80 mt-1 text-sm">
+                    Total Terdaftar: <strong class="text-white">{{ count($ujian->soals) }} Butir Soal</strong>
                 </p>
             </div>
-            <div class="flex flex-wrap gap-3 w-full md:w-auto">
+            <div class="relative z-10 flex flex-wrap gap-3 w-full md:w-auto">
                 <a href="{{ route(auth()->user()->role . '.ujian.soal.create', $ujian->id) }}" class="ui-btn-primary w-full md:w-auto">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                     Tambah Soal Baru

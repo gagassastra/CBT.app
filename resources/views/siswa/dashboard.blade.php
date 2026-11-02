@@ -36,47 +36,50 @@
         @endphp
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Student Identity Card -->
-            <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/80 flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Identitas Peserta</p>
-                    <h3 class="text-xl font-extrabold text-slate-900 mt-1">NISN: {{ Auth::user()->nisn ?? '-' }}</h3>
-                    <p class="text-xs font-semibold text-blue-600 mt-1">Kelas: {{ Auth::user()->kelas->nama_kelas ?? 'Belum ditentukan' }}</p>
+            <div class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-800 rounded-2xl p-6 text-white shadow-lg shadow-indigo-600/20 flex items-center justify-between">
+                <div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <p class="text-xs font-bold uppercase tracking-wider text-indigo-100">Identitas Peserta</p>
+                    <h3 class="text-xl font-extrabold text-white mt-1">NISN: {{ Auth::user()->nisn ?? '-' }}</h3>
+                    <p class="text-xs font-bold text-amber-200 mt-1.5">Kelas: {{ Auth::user()->kelas->nama_kelas ?? 'Belum ditentukan' }}</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center shrink-0">
+                <div class="relative z-10 w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md text-white border border-white/20 flex items-center justify-center shrink-0">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0"/></svg>
                 </div>
             </div>
 
             <!-- Active Exams -->
-            <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/80 flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Ujian Aktif Saat Ini</p>
-                    <h3 class="text-3xl font-extrabold text-slate-900 mt-1">{{ $ujian_tersedia }} <span class="text-sm font-semibold text-slate-500">Ujian</span></h3>
-                    <p class="text-xs text-slate-500 mt-1">Siap untuk dikerjakan</p>
+            <div class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-700 rounded-2xl p-6 text-white shadow-lg shadow-blue-600/20 flex items-center justify-between">
+                <div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <p class="text-xs font-bold uppercase tracking-wider text-blue-100">Ujian Aktif Saat Ini</p>
+                    <h3 class="text-3xl font-extrabold text-white mt-1">{{ $ujian_tersedia }} <span class="text-sm font-semibold text-cyan-200">Ujian</span></h3>
+                    <p class="text-xs text-blue-100 mt-1">Siap untuk dikerjakan</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0">
+                <div class="relative z-10 w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md text-white border border-white/20 flex items-center justify-center shrink-0">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
             </div>
 
             <!-- Completed Exams -->
-            <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/80 flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Ujian Diselesaikan</p>
-                    <h3 class="text-3xl font-extrabold text-slate-900 mt-1">{{ $ujian_selesai }} <span class="text-sm font-semibold text-slate-500">Ujian</span></h3>
-                    <p class="text-xs text-slate-500 mt-1">Telah dikumpulkan</p>
+            <div class="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-800 rounded-2xl p-6 text-white shadow-lg shadow-emerald-600/20 flex items-center justify-between">
+                <div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <p class="text-xs font-bold uppercase tracking-wider text-emerald-100">Ujian Diselesaikan</p>
+                    <h3 class="text-3xl font-extrabold text-white mt-1">{{ $ujian_selesai }} <span class="text-sm font-semibold text-teal-200">Ujian</span></h3>
+                    <p class="text-xs text-emerald-100 mt-1">Telah dikumpulkan</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
+                <div class="relative z-10 w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md text-white border border-white/20 flex items-center justify-center shrink-0">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
             </div>
         </div>
 
         <!-- Action Card -->
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-6">
+        <div class="bg-gradient-to-r from-white via-indigo-50/60 to-blue-100/60 rounded-2xl p-6 sm:p-8 shadow-md shadow-indigo-950/5 border border-indigo-200/80 flex flex-col sm:flex-row justify-between items-center gap-6">
             <div>
                 <h3 class="text-xl font-extrabold text-slate-900 tracking-tight">Siap Memulai Evaluasi Pembelajaran?</h3>
-                <p class="text-sm text-slate-500 mt-1">Periksa jadwal mata pelajaran yang sedang berlangsung untuk kelas Anda dan mulai kerjakan ujian.</p>
+                <p class="text-sm text-slate-600 mt-1">Periksa jadwal mata pelajaran yang sedang berlangsung untuk kelas Anda dan mulai kerjakan ujian.</p>
             </div>
             <a href="{{ route('siswa.ujian.index') }}" class="ui-btn-primary px-6 py-3 w-full sm:w-auto">
                 Buka Daftar Ujian

@@ -140,17 +140,18 @@
             </div>
 
             <!-- Right Column: Question Number Navigation Grid -->
-            <div class="lg:col-span-4 bg-white rounded-2xl shadow-xs border border-slate-200/80 p-6 sticky top-24">
-                <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+            <div class="lg:col-span-4 bg-white rounded-2xl shadow-md shadow-indigo-950/5 border border-indigo-100 overflow-hidden sticky top-24">
+                <div class="px-6 py-4 bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-950 text-white flex items-center justify-between">
                     <div>
-                        <h3 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider">Navigasi Nomor Soal</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Klik nomor untuk berpindah soal</p>
+                        <h3 class="text-sm font-extrabold text-white uppercase tracking-wider">Navigasi Nomor Soal</h3>
+                        <p class="text-xs text-blue-200/80 mt-0.5">Klik nomor untuk berpindah soal</p>
                     </div>
-                    <span id="answered-count" class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-100">
+                    <span id="answered-count" class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-400/20 text-cyan-200 border border-cyan-300/30">
                         0 / {{ count($ujian->soals) }}
                     </span>
                 </div>
 
+                <div class="p-6">
                 <!-- Grid of Numbers -->
                 <div class="grid grid-cols-5 gap-2.5 mb-6">
                     @foreach($ujian->soals as $i => $soal)
@@ -170,7 +171,7 @@
                 </div>
 
                 <!-- Legend -->
-                <div class="space-y-2 text-xs text-slate-600 pt-4 border-t border-slate-100">
+                <div class="space-y-2 text-xs text-slate-600 pt-4 border-t border-indigo-100">
                     <div class="flex items-center gap-2.5">
                         <span class="w-3.5 h-3.5 rounded bg-emerald-600 inline-block"></span>
                         <span>Sudah Dijawab</span>
@@ -185,11 +186,12 @@
                     </div>
                 </div>
 
-                <div class="mt-6 pt-5 border-t border-slate-100">
-                    <button type="button" onclick="konfirmasiKumpulkan()" class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-5 py-3 text-sm font-bold text-white shadow-sm shadow-emerald-600/20 transition">
+                <div class="mt-6 pt-5 border-t border-indigo-100">
+                    <button type="button" onclick="konfirmasiKumpulkan()" class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 px-5 py-3 text-sm font-bold text-white shadow-md shadow-emerald-600/20 transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         Kumpulkan Ujian Sekarang
                     </button>
+                </div>
                 </div>
             </div>
         </div>
