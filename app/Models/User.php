@@ -24,11 +24,23 @@ class User extends Authenticatable
         'nisn',
         'password',
         'role',
+        'foto',
         'password_plain',
         'tempat_lahir',
         'tanggal_lahir',
         'kelas_id',
     ];
+
+    /**
+     * URL lengkap foto profil pengguna jika tersedia.
+     */
+    public function getFotoUrlAttribute(): ?string
+    {
+        if (!empty($this->foto)) {
+            return asset('storage/' . $this->foto);
+        }
+        return null;
+    }
 
     /**
      * The attributes that should be hidden for serialization.

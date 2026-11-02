@@ -4,17 +4,28 @@
         <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 rounded-3xl p-8 sm:p-10 text-white shadow-xl relative overflow-hidden border border-slate-800">
             <div class="absolute -top-20 -right-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold text-blue-200 mb-4">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        Panel Pengajar / Guru
+                <div class="flex items-start sm:items-center gap-5">
+                    <a href="{{ route('profile.edit') }}" title="Ubah Foto Profil" class="hidden sm:flex shrink-0 group relative">
+                        @if(Auth::user()->foto_url)
+                            <img src="{{ Auth::user()->foto_url }}" alt="{{ Auth::user()->name }}" class="w-20 h-20 rounded-2xl object-cover border-2 border-cyan-300/40 shadow-lg group-hover:scale-105 transition">
+                        @else
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 text-white font-extrabold text-2xl flex items-center justify-center border-2 border-white/20 shadow-lg group-hover:scale-105 transition">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                        @endif
+                    </a>
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold text-blue-200 mb-3">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Panel Pengajar / Guru
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
+                            Selamat Datang, {{ Auth::user()->name }}
+                        </h1>
+                        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mt-2 leading-relaxed">
+                            Kelola jadwal ujian kelas Anda, susun butir soal pilihan ganda maupun esai, serta pantau dan cetak rekapitulasi nilai siswa.
+                        </p>
                     </div>
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
-                        Selamat Datang, {{ Auth::user()->name }}
-                    </h1>
-                    <p class="text-slate-300 text-sm sm:text-base max-w-2xl mt-2 leading-relaxed">
-                        Kelola jadwal ujian kelas Anda, susun butir soal pilihan ganda maupun esai, serta pantau dan cetak rekapitulasi nilai siswa.
-                    </p>
                 </div>
                 <div class="flex flex-wrap gap-3 shrink-0">
                     <a href="{{ route('guru.ujian.create') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold shadow-lg shadow-blue-600/30 transition">

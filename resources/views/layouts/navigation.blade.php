@@ -70,9 +70,13 @@
                 <x-dropdown align="right" width="56">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-full border border-white/15 bg-white/10 hover:bg-white/20 text-sm font-semibold text-white transition focus:outline-none focus:ring-2 focus:ring-cyan-400/40 backdrop-blur-sm">
-                            <span class="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 text-white text-xs font-extrabold flex items-center justify-center shadow-sm">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                            </span>
+                            @if(Auth::user()->foto_url)
+                                <img src="{{ Auth::user()->foto_url }}" alt="{{ Auth::user()->name }}" class="w-7 h-7 rounded-full object-cover border border-cyan-300/50 shadow-sm shrink-0">
+                            @else
+                                <span class="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 text-white text-xs font-extrabold flex items-center justify-center shadow-sm shrink-0">
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                </span>
+                            @endif
                             <span class="max-w-[140px] truncate">{{ Auth::user()->name }}</span>
                             <span class="hidden lg:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30">
                                 {{ Auth::user()->role }}
@@ -167,9 +171,13 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-4 border-t border-indigo-400/20 bg-indigo-950/60">
             <div class="px-5 flex items-center mb-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-bold text-base mr-3 shadow-sm">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                </div>
+                @if(Auth::user()->foto_url)
+                    <img src="{{ Auth::user()->foto_url }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full object-cover border border-cyan-300/50 mr-3 shadow-sm shrink-0">
+                @else
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-bold text-base mr-3 shadow-sm shrink-0">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </div>
+                @endif
                 <div>
                     <div class="font-bold text-sm text-white">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-xs text-blue-200/80">{{ Auth::user()->email ?? Auth::user()->nisn }}</div>

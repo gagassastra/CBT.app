@@ -12,9 +12,13 @@
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Pengaturan Profil</h1>
                 <p class="text-blue-100/80 text-sm mt-1">Kelola informasi pribadi, alamat email, dan pembaruan kata sandi akun Anda.</p>
             </div>
-            <div class="relative z-10 hidden sm:flex w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 text-white font-extrabold text-xl items-center justify-center shadow-md border border-white/20 shrink-0">
-                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-            </div>
+            @if(Auth::user()->foto_url)
+                <img src="{{ Auth::user()->foto_url }}" alt="{{ Auth::user()->name }}" class="relative z-10 hidden sm:block w-16 h-16 rounded-2xl object-cover shadow-md border-2 border-cyan-300/40 shrink-0">
+            @else
+                <div class="relative z-10 hidden sm:flex w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 text-white font-extrabold text-xl items-center justify-center shadow-md border border-white/20 shrink-0">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+            @endif
         </div>
 
         <div class="space-y-6">

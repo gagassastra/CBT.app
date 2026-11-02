@@ -48,9 +48,13 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-400">{{ $index + 1 }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center gap-3">
-                                        <div class="h-9 w-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-2xs shrink-0">
-                                            {{ strtoupper(substr($p->name, 0, 1)) }}
-                                        </div>
+                                        @if($p->foto_url)
+                                            <img src="{{ $p->foto_url }}" alt="{{ $p->name }}" class="h-10 w-10 rounded-full object-cover border-2 border-indigo-200 shadow-2xs shrink-0">
+                                        @else
+                                            <div class="h-10 w-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-2xs shrink-0">
+                                                {{ strtoupper(substr($p->name, 0, 1)) }}
+                                            </div>
+                                        @endif
                                         <span class="text-sm font-bold text-slate-800">{{ $p->name }}</span>
                                     </div>
                                 </td>
