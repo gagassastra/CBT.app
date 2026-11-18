@@ -4,6 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Portal Ujian CBT — PKBM AL-QUDWAH</title>
+        <link rel="icon" type="image/png" href="{{ asset('image/logo.png') }}">
+        <link rel="shortcut icon" type="image/png" href="{{ asset('image/logo.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('image/logo.png') }}">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
